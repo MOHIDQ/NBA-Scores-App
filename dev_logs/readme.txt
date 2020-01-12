@@ -1,0 +1,1 @@
+Weekly Dev logs posted by each group member are located in this directory "dev_logs". 
