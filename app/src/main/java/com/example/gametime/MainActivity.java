@@ -57,6 +57,9 @@ public class MainActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    private void updateUI() {
+
+    }
 
 
 
@@ -100,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             currentGameList = ScoreParser.parseGames(result);
-
+            updateUI();
             //for (int i = 0; i < currentGameList.size(); i++) {
               //  Log.i("TEST", currentGameList.get(i).getAwayTeam());
             //}
