@@ -1,0 +1,6 @@
+The application has the ability to run in the background and have a consistent notification showing
+the user that the app is running. The notification is mapped to the settings page where is user will
+be able to force stop the app. ~ 3 hours
+
+This week I plan on creating a class which will allow for customized notifications and do further
+research and testing on the app running in the background.
