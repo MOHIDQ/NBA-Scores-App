@@ -7,28 +7,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-
-    private static String STRING_URL = "http://api.isportsapi.com/sport/basketball/livescores?api_key=e2inHJ71Nvpk49T8";
     private ArrayList<Game> currentGameList;
 
     @Override
@@ -36,12 +21,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         currentGameList = new ArrayList<>();
 
+        //if user has active internet connection get live scores
         if(isNetworkAvailable()) {
-            APICall call = new APICall();
-            call.execute();
+            callAsynchronousTask();
         }
         //condition for when network connection is not available
         else {
@@ -57,7 +41,12 @@ public class MainActivity extends AppCompatActivity {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
+    //ANY UPDATES TO UI HAVE TO BE DONE HERE
     private void updateUI() {
+        //added log messages for test purposes
+        for (int i = 0; i < currentGameList.size(); i++) {
+            Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | "+ currentGameList.get(i).getAwayScore());
+        }
 
     }
 
@@ -65,49 +54,44 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+    //executes async task to update live scores every timer interval, running on ui thread
+    private void callAsynchronousTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask asynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                            APICall apiScoreGetter = new APICall();
+                            // PerformBackgroundTask this class is the class that extends AsynchTask
+                            apiScoreGetter.execute();
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(asynchronousTask, 0, 5000); //execute in every 5 seconds
+    }
+
 
 
     //async task for GET requests to REST API
     private class APICall extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... voids) {
-            BufferedReader reader = null;
-            String result = null;
-            StringBuffer sbf = new StringBuffer();
-            String userAgent = "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36";
-            try {
-                URL newUrl = new URL(STRING_URL);
-                HttpURLConnection connection = (HttpURLConnection)newUrl.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setReadTimeout(30000);
-                connection.setConnectTimeout(30000);
-                connection.setRequestProperty("User-agent", userAgent);
-                connection.connect();
-                InputStream is = connection.getInputStream();
-                reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
-                String strRead = null;
-                while ((strRead = reader.readLine()) != null) {
-                    sbf.append(strRead);
-                    sbf.append("\r\n");
-                }
-                reader.close();
-                result = sbf.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return result;
+            return ScoreParser.getDataFromAPI();
         }
-
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
+            currentGameList.clear();
             currentGameList = ScoreParser.parseGames(result);
             updateUI();
-            //for (int i = 0; i < currentGameList.size(); i++) {
-              //  Log.i("TEST", currentGameList.get(i).getAwayTeam());
-            //}
-            //Log.i("TEST", result);
         }
     }
 }
