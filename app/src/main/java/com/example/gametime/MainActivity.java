@@ -27,16 +27,10 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Game> currentGameList;
-
-    private NotificationCompat.Builder notificationBuilder;
-    private int currentNotificationID = 0;
-    private NotificationManager notificationManager;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         Button m_TestButton = findViewById(R.id.test_button);
         m_TestButton.setOnClickListener(new View.OnClickListener()
@@ -44,46 +38,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // handle the button
-                setDataForSimpleNotification();
                 Toast.makeText(MainActivity.this, "working", Toast.LENGTH_SHORT).show();
 
             }
         });
-    }
-
-    private void sendNotification() {
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        notificationBuilder.setContentIntent(contentIntent);
-        Notification notification = notificationBuilder.build();
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
-        notification.defaults |= Notification.DEFAULT_SOUND;
-        currentNotificationID++;
-        int notificationId = currentNotificationID;
-        if (notificationId == Integer.MAX_VALUE - 1)
-            notificationId = 0;
-         notificationManager.notify(notificationId, notification);
-    }
-
-    private void setDataForSimpleNotification() {
-        notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                //.setLargeIcon(icon)
-                .setContentTitle("Tight")
-                .setContentText("Bro");
-        sendNotification();
-
-        currentGameList = new ArrayList<>();
-
-        //if user has active internet connection get live scores
-        if(isNetworkAvailable()) {
-            callAsynchronousTask();
-        }
-        //condition for when network connection is not available
-        else {
-            Log.i("TEST", "NO INTERNET");
-        }
-
     }
 
     //if network connection is available run async task for getting scores data
