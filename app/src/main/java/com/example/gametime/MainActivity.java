@@ -6,18 +6,11 @@ import androidx.core.app.NotificationManagerCompat;
 
 
 import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.RemoteAction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -46,27 +39,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sendOnScoreUpdate(View v) {
+        // notification test function
+        createNotification("Raptors", "Lakers", 50,23, "Lebron James made a 3point play");
+    }
 
-        RemoteViews collasped = new RemoteViews(getPackageName(),
-                R.layout.custom_notification_collasped);
-        RemoteViews expanded = new RemoteViews(getPackageName(),
-                R.layout.custom_notification_expand);
-        String title = "Raptor     43       vs                        Lakers         24";
-        String message = "Lebron James made a 3";
-
+    public void createNotification( String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay)
+    {
+        String teams = homeTeam + " " + homeScore + " - " + awayScore + " " + awayTeam;
         Intent activityIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, activityIntent, 0);
 
         Notification notification = new NotificationCompat.Builder(this, GAMESCORES_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification_logo)
-                .setContentTitle(title)
-                .setContentText(message)
-                //.setCustomContentView(collasped)
-                .setCustomBigContentView(expanded)
+                .setContentTitle(teams)
+                .setContentText(latestPlay)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
-                .setColor(Color.BLUE)
+//                .setColor(Color.BLUE)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build();

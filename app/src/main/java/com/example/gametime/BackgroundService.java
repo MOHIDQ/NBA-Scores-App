@@ -21,8 +21,12 @@ public class BackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
 
-        // do your jobs here
+        // do background jobs here
 
+        // Tests that the background service is running correctly
+//        MediaPlayer player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
+//        player.setLooping(true);
+//        player.start();
         startForeground();
 
         return super.onStartCommand(intent, flags, startId);

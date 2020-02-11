@@ -20,15 +20,15 @@ public class App extends Application {
 
     private void createNotificationChannels(){
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel1 = new NotificationChannel(
+            NotificationChannel scoreNotificationChannel = new NotificationChannel(
                     GAMESCORES_CHANNEL_ID,
                     "Scores Channel",
                     NotificationManager.IMPORTANCE_HIGH
             );
-            channel1.setDescription(" this channels sends the scores of the games");
+            scoreNotificationChannel.setDescription("This channel sends the Game score updates");
 
             NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel1);
+            manager.createNotificationChannel(scoreNotificationChannel);
         }
     }
 }
