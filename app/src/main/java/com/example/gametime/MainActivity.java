@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
                 .setContentText(latestPlay)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
-//                .setColor(Color.BLUE)
+                .setColor(Color.BLUE)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .build();

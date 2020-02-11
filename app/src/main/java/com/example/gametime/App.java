@@ -28,6 +28,7 @@ public class App extends Application {
             scoreNotificationChannel.setDescription("This channel sends the Game score updates");
 
             NotificationManager manager = getSystemService(NotificationManager.class);
+            assert manager != null;
             manager.createNotificationChannel(scoreNotificationChannel);
         }
     }
