@@ -2,15 +2,21 @@ package com.example.gametime;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.RemoteAction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import android.content.Context;
@@ -24,24 +30,48 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.gametime.App.GAMESCORES_CHANNEL_ID;
+import static com.example.gametime.App.GAMESCORES__ID;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Game> currentGameList;
+    private NotificationManagerCompat notificationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button m_TestButton = findViewById(R.id.test_button);
-        m_TestButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                // handle the button
-                Toast.makeText(MainActivity.this, "working", Toast.LENGTH_SHORT).show();
+        notificationManager = NotificationManagerCompat.from(this);
+    }
 
-            }
-        });
+    public void sendOnScoreUpdate(View v) {
+
+        RemoteViews collasped = new RemoteViews(getPackageName(),
+                R.layout.custom_notification_collasped);
+        RemoteViews expanded = new RemoteViews(getPackageName(),
+                R.layout.custom_notification_expand);
+        String title = "Raptor     43       vs                        Lakers         24";
+        String message = "Lebron James made a 3";
+
+        Intent activityIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, activityIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this, GAMESCORES_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification_logo)
+                .setContentTitle(title)
+                .setContentText(message)
+                //.setCustomContentView(collasped)
+                .setCustomBigContentView(expanded)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_STATUS)
+                .setColor(Color.BLUE)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
+
+        notificationManager.notify(GAMESCORES__ID, notification);
     }
 
     //if network connection is available run async task for getting scores data

@@ -9,9 +9,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 public class BackgroundService extends Service {
-
     private static final int NOTIF_ID = 1;
-    private static final String NOTIF_CHANNEL_ID = "Channel_Id";
+    private static final String Background_CHANNEL_ID = "backgroundServiceChannel";
 
     @Nullable
     @Override
@@ -35,10 +34,8 @@ public class BackgroundService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
 
-        startForeground(NOTIF_ID, new NotificationCompat.Builder(this,
-                NOTIF_CHANNEL_ID) // don't forget create a notification channel first
-                .setOngoing(true)
-//                .setSmallIcon(R.drawable.notification_icon)
+        startForeground(NOTIF_ID, new NotificationCompat.Builder(this, Background_CHANNEL_ID)
+                .setOngoing(true) // TODO: maybe change after dev
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText("Service is running background")
                 .setContentIntent(pendingIntent)
