@@ -27,7 +27,7 @@ public class BackgroundService extends Service {
 //        MediaPlayer player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
 //        player.setLooping(true);
 //        player.start();
-        startForeground();
+//        startForeground();
 
         return super.onStartCommand(intent, flags, startId);
     }
