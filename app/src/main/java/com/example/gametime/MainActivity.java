@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             Log.i("TEST", "NO INTERNET");
         }
-
     }
 
     //if network connection is available run async task for getting scores data
