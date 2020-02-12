@@ -1,6 +1,16 @@
 package com.example.gametime;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.view.View;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -13,15 +23,19 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.gametime.App.GAMESCORES_CHANNEL_ID;
+import static com.example.gametime.App.GAMESCORES__ID;
+
 public class MainActivity extends AppCompatActivity {
     private ArrayList<Game> currentGameList;
+    private NotificationManagerCompat notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currentGameList = new ArrayList<>();
+        notificationManager = NotificationManagerCompat.from(this);
 
         //if user has active internet connection get live scores
         if(isNetworkAvailable()) {
@@ -31,6 +45,33 @@ public class MainActivity extends AppCompatActivity {
         else {
             Log.i("TEST", "NO INTERNET");
         }
+    }
+
+
+    public void sendOnScoreUpdate(View v) {
+        // notification test function
+        createNotification("Raptors", "Lakers", 50,23, "Lebron James made a 3point play");
+    }
+
+    public void createNotification( String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay)
+    {
+        String teams = homeTeam + " " + homeScore + " - " + awayScore + " " + awayTeam;
+        Intent activityIntent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this,
+                0, activityIntent, 0);
+
+        Notification notification = new NotificationCompat.Builder(this, GAMESCORES_CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification_logo)
+                .setContentTitle(teams)
+                .setContentText(latestPlay)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setCategory(NotificationCompat.CATEGORY_STATUS)
+                .setColor(Color.BLUE)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true)
+                .build();
+
+        notificationManager.notify(GAMESCORES__ID, notification);
     }
 
     //if network connection is available run async task for getting scores data
@@ -92,5 +133,6 @@ public class MainActivity extends AppCompatActivity {
             currentGameList = ScoreParser.parseGames(result);
             updateUI();
         }
+
     }
 }
