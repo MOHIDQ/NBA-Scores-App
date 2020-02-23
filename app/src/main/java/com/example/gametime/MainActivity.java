@@ -6,6 +6,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 
 import android.app.Notification;
+import android.app.Notification.InboxStyle;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
@@ -42,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
         dataBaseTester();
 
         //if user has active internet connection get live scores
-       // if(isNetworkAvailable()) {
-            //callAsynchronousTask();
-        //}
-        //condition for when network connection is not available
-        //else {
-           // Log.i("TEST", "NO INTERNET");
-        //}
+        if(isNetworkAvailable()) {
+            callAsynchronousTask();
+        }
+//        condition for when network connection is not available
+        else {
+            Log.i("TEST", "NO INTERNET");
+        }
     }
 
     private void dataBaseTester() {
@@ -78,23 +79,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void createNotification( String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay)
     {
-        String teams = homeTeam + " " + homeScore + " - " + awayScore + " " + awayTeam;
-        Intent activityIntent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this,
-                0, activityIntent, 0);
-
-        Notification notification = new NotificationCompat.Builder(this, GAMESCORES_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notification_logo)
-                .setContentTitle(teams)
-                .setContentText(latestPlay)
-                .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setCategory(NotificationCompat.CATEGORY_STATUS)
-                .setColor(Color.BLUE)
-                .setContentIntent(pendingIntent)
-                .setAutoCancel(true)
-                .build();
-
-        notificationManager.notify(GAMESCORES__ID, notification);
+        ScoreNotification not = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 0);
+        not.Notify();
+        ScoreNotification not2 = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 1);
+        not2.Notify();
     }
 
     //if network connection is available run async task for getting scores data
@@ -109,9 +97,15 @@ public class MainActivity extends AppCompatActivity {
         //added log messages for test purposes
         for (int i = 0; i < currentGameList.size(); i++) {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | "+ currentGameList.get(i).getAwayScore());
+            if ( currentGameList.get(i).getQuarter() >= 1)
+            {
+                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i).getHomeTeam(), currentGameList.get(i).getAwayTeam(),
+                        currentGameList.get(i).getHomeScore(), currentGameList.get(i).getAwayScore(), currentGameList.get(i).getLastPlay(), i);
+                not.Notify();
+            }
         }
 
-    }
+}
 
 
 
