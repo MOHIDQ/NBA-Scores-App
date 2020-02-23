@@ -1,0 +1,4 @@
+-I tried implementing recyclerView and CardView to display the game cards for our app. The issues that I
+faced were the package version not being compatible with the API level (which was later changed) and the
+app stopping frequently while testing. We eventually decided not to move forward with recyclerView and to
+rather stick with just cardView for our app.
