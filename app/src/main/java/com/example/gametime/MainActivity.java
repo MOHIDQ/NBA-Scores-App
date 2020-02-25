@@ -25,12 +25,15 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.crypto.AEADBadTagException;
+
 import static com.example.gametime.App.GAMESCORES_CHANNEL_ID;
 import static com.example.gametime.App.GAMESCORES__ID;
 
 public class MainActivity extends AppCompatActivity {
     public ArrayList<Game> currentGameList = new ArrayList<>(); //contain all game data
     private NotificationManagerCompat notificationManager;
+    public ArrayList<ScoreNotification> currNotificationList = new ArrayList<>();
     private DatabaseHelper db;
 
     @Override
@@ -97,11 +100,27 @@ public class MainActivity extends AppCompatActivity {
         //added log messages for test purposes
         for (int i = 0; i < currentGameList.size(); i++) {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | "+ currentGameList.get(i).getAwayScore());
-            if ( currentGameList.get(i).getQuarter() >= 1)
-            {
-                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i).getHomeTeam(), currentGameList.get(i).getAwayTeam(),
-                        currentGameList.get(i).getHomeScore(), currentGameList.get(i).getAwayScore(), currentGameList.get(i).getLastPlay(), i);
+
+            //TODO: Do cards creation/UI update inside
+            if (currNotificationList.size() < currentGameList.size()) {
+
+                ScoreNotification not = new ScoreNotification(this, notificationManager,
+                        currentGameList.get(i).getHomeTeam(),
+                        currentGameList.get(i).getAwayTeam(),
+                        currentGameList.get(i).getHomeScore(),
+                        currentGameList.get(i).getAwayScore(),
+                        currentGameList.get(i).getLastPlay(), i);
+
+                currNotificationList.add(not);
                 not.Notify();
+            }
+
+            if (currentGameList.get(i).getQuarter() > -1)
+            {
+                if (currNotificationList.get(i).GetHomeScore() != currentGameList.get(i).getHomeScore())
+                {
+                    //currNotificationList.get(i).Notify();
+                }
             }
         }
 
