@@ -13,13 +13,15 @@ import static com.example.gametime.App.GAMESCORES__ID;
 
 class ScoreNotification {
 
-private Notification mNotification;
-private Notification mSummaryNotification;
-private NotificationManagerCompat mManager;
-private int mId;
+    private int mHomeScore;
+    private Notification mNotification;
+    private Notification mSummaryNotification;
+    private NotificationManagerCompat mManager;
+    private int mId;
 
     ScoreNotification(MainActivity main, NotificationManagerCompat manager, String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay, int id)
     {
+        mHomeScore = homeScore;
         mId = id;
         mManager = manager;
         String teams = homeTeam + " " + homeScore + " - " + awayScore + " " + awayTeam;
@@ -55,4 +57,13 @@ private int mId;
         mManager.notify(mId, mNotification);
         mManager.notify(7,mSummaryNotification);
     }
+
+    boolean NotificationUpdated(int score)
+    {
+        if (mHomeScore == score)
+            return true;
+        return false;
+    }
+
+    int GetHomeScore() { return mHomeScore; };
 }
