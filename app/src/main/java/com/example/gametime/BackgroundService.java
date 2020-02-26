@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 public class BackgroundService extends Service {
-    private static final int NOTIF_ID = 1;
+    private static final int NOTIF_ID = 12;
     private static final String Background_CHANNEL_ID = "backgroundServiceChannel";
 
     @Nullable
