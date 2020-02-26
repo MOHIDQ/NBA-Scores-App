@@ -35,19 +35,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //currentGameList = new ArrayList<>();
+        currentGameList = new ArrayList<>();
         notificationManager = NotificationManagerCompat.from(this);
 
         dataBaseTester();
 
         //if user has active internet connection get live scores
-        if(isNetworkAvailable()) {
-            callAsynchronousTask();
-        }
+//        if(isNetworkAvailable()) {
+//            callAsynchronousTask();
+//        }
 //        condition for when network connection is not available
-        else {
-            Log.i("TEST", "NO INTERNET");
-        }
+//        else {
+//            Log.i("TEST", "NO INTERNET");
+//        }
     }
 
     private void dataBaseTester() {
@@ -128,11 +128,13 @@ public class MainActivity extends AppCompatActivity {
                         currentGameList.get(i).getAwayScore(),
                         currentGameList.get(i).getLastPlay());
 
-                //not.Notify(i);
+                not.Notify(i);
                 currNotificationList.add(not);
             }
-            if (currentGameList.get(i).getQuarter() > 0)
+            // Change
+            if (currentGameList.get(i).getQuarter() > -1)
             {
+//                currNotificationList.get(i).Notify(i);
                 if ((!currNotificationList.get(i).GetCurrLatestPlay().equals( currentGameList.get(i).getLastPlay()) )||
                         currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
                         currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore())
@@ -141,12 +143,12 @@ public class MainActivity extends AppCompatActivity {
                      currNotificationList.get(i).SetNotifAwayScore (currentGameList.get(i).getAwayScore());
                      currNotificationList.get(i).SetNotifLatestPlay(currentGameList.get(i).getLastPlay());
 
-                     currNotificationList.get(i).Notify(i+21);
+                     currNotificationList.get(i).Notify(i);
                 }
             }
 
 
-        }
+    }
 
 }
 
