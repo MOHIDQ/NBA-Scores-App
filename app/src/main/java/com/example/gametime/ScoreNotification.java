@@ -31,7 +31,6 @@ class ScoreNotification {
         mAwayScore = awayScore;
         mLatestPlay = latestPlay;
         mManager = manager;
-        String teams = homeTeam + " " + homeScore + " - " + awayScore + " " + awayTeam;
 
         Intent activityIntent = new Intent(main, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(main,
@@ -39,12 +38,10 @@ class ScoreNotification {
 
         mNotification = new NotificationCompat.Builder(main, GAMESCORES_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification_logo)
-                .setContentTitle(teams)
-                .setContentText(mLatestPlay)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setGroup("scores_group")
                 .setColor(Color.BLUE)
-                .setOngoing(true)
+//                .setOngoing(true)
                 .setContentIntent(pendingIntent);
 
         mSummaryNotification = new NotificationCompat.Builder(main, GAMESCORES_CHANNEL_ID)
@@ -60,20 +57,9 @@ class ScoreNotification {
 
     void Notify(int id)
     {
-        if ( id == 0)
-        {
-            id = 4;
-        }
-        else if (id == 1)
-            id = 5;
-        else if (id == 2)
-            id = 6;
-        else if (id == 3)
-            id = 7;
-
         mNotification.setContentTitle(mHomeTeam + " " + mHomeScore + " - " + mAwayScore + " " + mAwayTeam);
         mNotification.setContentText(mLatestPlay);
-        mManager.notify(id, mNotification.build());
+        mManager.notify(id+20, mNotification.build());
         mManager.notify(10, mSummaryNotification);
     }
 

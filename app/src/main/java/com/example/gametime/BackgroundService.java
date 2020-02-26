@@ -23,10 +23,6 @@ public class BackgroundService extends Service {
 
         // do background jobs here
 
-        // Tests that the background service is running correctly
-//        MediaPlayer player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
-//        player.setLooping(true);
-//        player.start();
         MainActivity mainActivity = new MainActivity();
        // if(mainActivity.isNetworkAvailable()) {
             mainActivity.callAsynchronousTask();
