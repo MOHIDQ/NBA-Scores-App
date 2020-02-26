@@ -1,16 +1,10 @@
 package com.example.gametime;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 
-import android.app.Notification;
-import android.app.Notification.InboxStyle;
-import android.app.PendingIntent;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
@@ -18,17 +12,11 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.crypto.AEADBadTagException;
-
-import static com.example.gametime.App.GAMESCORES_CHANNEL_ID;
-import static com.example.gametime.App.GAMESCORES__ID;
 
 public class MainActivity extends AppCompatActivity {
     public ArrayList<Game> currentGameList = new ArrayList<>(); //contain all game data
@@ -77,15 +65,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendOnScoreUpdate(View v) {
         // notification test function
-        createNotification("Raptors", "Lakers", 50,23, "Lebron James made a 3point play");
+        //createNotification("Raptors", "Lakers", 50,23, "Lebron James made a 3point play");
+        ScoreNotification check = currNotificationList.get(0);
+        ScoreNotification check2 = currNotificationList.get(1);
+        check.Notify(0);
+        //check2.Notify(5);
     }
 
     public void createNotification( String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay)
     {
-        ScoreNotification not = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 0);
-        not.Notify();
-        ScoreNotification not2 = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 1);
-        not2.Notify();
+        //ScoreNotification not = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 0);
+       // not.Notify();
+        //ScoreNotification not2 = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 1);
+        //not2.Notify();
     }
 
     //if network connection is available run async task for getting scores data
@@ -100,28 +92,36 @@ public class MainActivity extends AppCompatActivity {
         //added log messages for test purposes
         for (int i = 0; i < currentGameList.size(); i++) {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | "+ currentGameList.get(i).getAwayScore());
+            ScoreNotification not;
 
             //TODO: Do cards creation/UI update inside
             if (currNotificationList.size() < currentGameList.size()) {
 
-                ScoreNotification not = new ScoreNotification(this, notificationManager,
+                not = new ScoreNotification(this, notificationManager,
                         currentGameList.get(i).getHomeTeam(),
                         currentGameList.get(i).getAwayTeam(),
-                        currentGameList.get(i).getHomeScore(),
+                        currentGameList.get(i).getHomeScore() ,
                         currentGameList.get(i).getAwayScore(),
-                        currentGameList.get(i).getLastPlay(), i);
+                        currentGameList.get(i).getLastPlay());
 
+                //not.Notify(i);
                 currNotificationList.add(not);
-                not.Notify();
             }
-
-            if (currentGameList.get(i).getQuarter() > -1)
+            if (currentGameList.get(i).getQuarter() > 0)
             {
-                if (currNotificationList.get(i).GetHomeScore() != currentGameList.get(i).getHomeScore())
-                {
-                    //currNotificationList.get(i).Notify();
+                if ((!currNotificationList.get(i).GetCurrLatestPlay().equals( currentGameList.get(i).getLastPlay()) )||
+                        currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
+                        currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore())
+                 {
+                     currNotificationList.get(i).SetNotifHomeScore (currentGameList.get(i).getHomeScore());
+                     currNotificationList.get(i).SetNotifAwayScore (currentGameList.get(i).getAwayScore());
+                     currNotificationList.get(i).SetNotifLatestPlay(currentGameList.get(i).getLastPlay());
+
+                     currNotificationList.get(i).Notify(i+21);
                 }
             }
+
+
         }
 
 }
