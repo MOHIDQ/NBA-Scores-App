@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //update favourite team column
     public void updateFavTeam(String team) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE " + TABLE_NAME + " SET " + COL_3 + " = " + team);
+        db.execSQL("UPDATE " + TABLE_NAME + " SET " + COL_3 + " = " + "'" + team + "'");
     }
 
     public Cursor getData() {
