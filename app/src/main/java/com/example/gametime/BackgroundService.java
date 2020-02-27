@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 public class BackgroundService extends Service {
-    private static final int NOTIF_ID = 1;
+    private static final int NOTIF_ID = 12;
     private static final String Background_CHANNEL_ID = "backgroundServiceChannel";
 
     @Nullable
@@ -23,10 +23,6 @@ public class BackgroundService extends Service {
 
         // do background jobs here
 
-        // Tests that the background service is running correctly
-//        MediaPlayer player = MediaPlayer.create(this, Settings.System.DEFAULT_RINGTONE_URI);
-//        player.setLooping(true);
-//        player.start();
         MainActivity mainActivity = new MainActivity();
        // if(mainActivity.isNetworkAvailable()) {
             mainActivity.callAsynchronousTask();

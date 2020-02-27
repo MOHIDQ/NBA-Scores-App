@@ -8,7 +8,7 @@ import android.os.Build;
 
 public class App extends Application {
     public static final String GAMESCORES_CHANNEL_ID = "gameScoresChannel";
-    public static final int GAMESCORES__ID = 2;
+    public static final int GAMESCORES__ID = 15;
 
     @Override
     public void onCreate() {
