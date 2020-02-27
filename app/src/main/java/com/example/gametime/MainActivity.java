@@ -6,6 +6,7 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.View;
 
 import android.content.Context;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
         //if user has active internet connection get live scores
 //        if(isNetworkAvailable()) {
-//            callAsynchronousTask();
+            callAsynchronousTask();
 //        }
 //        condition for when network connection is not available
 //        else {
@@ -92,29 +93,30 @@ public class MainActivity extends AppCompatActivity {
         //added log messages for test purposes
         for (int i = 0; i < currentGameList.size(); i++) {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | "+ currentGameList.get(i).getAwayScore());
-            ScoreNotification not;
 
-            //TODO: Do cards creation/UI update inside
             if (currNotificationList.size() < currentGameList.size()) {
 
-                not = new ScoreNotification(this, notificationManager,
+                ScoreNotification not = new ScoreNotification(this, notificationManager,
                         currentGameList.get(i).getHomeTeam(),
                         currentGameList.get(i).getAwayTeam(),
                         currentGameList.get(i).getHomeScore() ,
                         currentGameList.get(i).getAwayScore(),
                         currentGameList.get(i).getLastPlay());
 
-                not.Notify(i);
+                // Uncomment if need to be notified of all current games
+                //not.Notify(i);
                 currNotificationList.add(not);
             }
-            // Change
-            if (currentGameList.get(i).getQuarter() > -1)
+            // TODO: Change if parameters to modify when notifications are sent
+            if (currentGameList.get(i).getQuarter() > 0)
             {
-//                currNotificationList.get(i).Notify(i);
-                if ((!currNotificationList.get(i).GetCurrLatestPlay().equals( currentGameList.get(i).getLastPlay()) )||
-                        currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
-                        currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore())
+                // only notifies if the home score, away score or latest play have been updated
+                if (currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
+                    currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore() ||
+                    !(currNotificationList.get(i).GetCurrLatestPlay().equals( currentGameList.get(i).getLastPlay())))
                  {
+                     currNotificationList.get(i).SetNotifHomeName(currentGameList.get(i).getHomeTeam());
+                     currNotificationList.get(i).SetNotifAwayName(currentGameList.get(i).getAwayTeam());
                      currNotificationList.get(i).SetNotifHomeScore (currentGameList.get(i).getHomeScore());
                      currNotificationList.get(i).SetNotifAwayScore (currentGameList.get(i).getAwayScore());
                      currNotificationList.get(i).SetNotifLatestPlay(currentGameList.get(i).getLastPlay());

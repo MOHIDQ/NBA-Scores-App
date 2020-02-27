@@ -23,7 +23,7 @@ class ScoreNotification {
     private int mAwayScore;
     private String mLatestPlay;
 
-    ScoreNotification(MainActivity main, NotificationManagerCompat manager, String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay)
+    ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay)
     {
         mHomeTeam = homeTeam;
         mAwayTeam = awayTeam;
@@ -32,19 +32,18 @@ class ScoreNotification {
         mLatestPlay = latestPlay;
         mManager = manager;
 
-        Intent activityIntent = new Intent(main, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(main,
+        Intent activityIntent = new Intent(mainActivity, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(mainActivity,
                 0, activityIntent, 0);
 
-        mNotification = new NotificationCompat.Builder(main, GAMESCORES_CHANNEL_ID)
+        mNotification = new NotificationCompat.Builder(mainActivity, GAMESCORES_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification_logo)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setGroup("scores_group")
                 .setColor(Color.BLUE)
-//                .setOngoing(true)
                 .setContentIntent(pendingIntent);
 
-        mSummaryNotification = new NotificationCompat.Builder(main, GAMESCORES_CHANNEL_ID)
+        mSummaryNotification = new NotificationCompat.Builder(mainActivity, GAMESCORES_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification_logo)
                 .setStyle(new NotificationCompat.InboxStyle()
                         .setSummaryText("Summary"))
@@ -57,12 +56,17 @@ class ScoreNotification {
 
     void Notify(int id)
     {
+        // update the notification content
         mNotification.setContentTitle(mHomeTeam + " " + mHomeScore + " - " + mAwayScore + " " + mAwayTeam);
         mNotification.setContentText(mLatestPlay);
+
+        //TODO: Myabe add some sort of sleep so that notifications dont come in at the same time. Ask team
         mManager.notify(id+20, mNotification.build());
         mManager.notify(10, mSummaryNotification);
     }
 
+    void SetNotifHomeName (String name) { mHomeTeam = name; };
+    void SetNotifAwayName(String name) { mAwayTeam = name; };
     void SetNotifHomeScore(int score) { mHomeScore = score; };
     void SetNotifAwayScore(int score) { mAwayScore = score; };
     void SetNotifLatestPlay(String play)
@@ -70,6 +74,8 @@ class ScoreNotification {
         mLatestPlay = play;
     }
 
+    String GetCurrHomeName() { return mHomeTeam; };
+    String GetCurrAwayName() { return mAwayTeam; };
     int GetCurrHomeScore() { return mHomeScore; };
     int GetCurrAwayScore() { return mAwayScore; };
     String GetCurrLatestPlay() { return mLatestPlay;};
