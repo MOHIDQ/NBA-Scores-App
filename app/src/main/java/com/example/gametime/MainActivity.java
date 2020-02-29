@@ -117,16 +117,16 @@ public class MainActivity extends AppCompatActivity {
                     cardList.get(i).setQuarterTime(String.valueOf(currentGameList.get(i).getQuarterTime()));
                     cardList.get(i).setLatestPlay(String.valueOf(currentGameList.get(i).getLastPlay()));
 
+                    mRecyclerView = findViewById(R.id.recyclerView);
+                    mRecyclerView.setHasFixedSize(true);
+                    mLayoutManager = new LinearLayoutManager(this);
+                    mAdapter = new Adapter(cardList);
+
+                    mRecyclerView.setLayoutManager(mLayoutManager);
+                    mRecyclerView.setAdapter(mAdapter);
 
                 }
 
-                mRecyclerView = findViewById(R.id.recyclerView);
-                mRecyclerView.setHasFixedSize(true);
-                mLayoutManager = new LinearLayoutManager(this);
-                mAdapter = new Adapter(cardList);
-
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
 
                 if (currNotificationList.size() < currentGameList.size()) {
 
