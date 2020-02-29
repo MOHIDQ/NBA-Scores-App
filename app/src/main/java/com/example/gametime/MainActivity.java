@@ -36,19 +36,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        currentGameList = new ArrayList<>();
         notificationManager = NotificationManagerCompat.from(this);
 
         dataBaseTester();
 
         //if user has active internet connection get live scores
-//        if(isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             callAsynchronousTask();
-//        }
+        }
 //        condition for when network connection is not available
-//        else {
-//            Log.i("TEST", "NO INTERNET");
-//        }
+        else {
+            Log.i("TEST", "NO INTERNET");
+        }
     }
 
     private void dataBaseTester() {
@@ -58,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if (result.getCount() == 0) {
             //show message
             Log.i("CURSOR", "NO DATA");
-        }
-        else {
+        } else {
             StringBuffer buffer = new StringBuffer();
             while (result.moveToNext()) {
                 buffer.append("time: " + result.getString(0) + "\n");
@@ -80,10 +78,9 @@ public class MainActivity extends AppCompatActivity {
         //check2.Notify(5);
     }
 
-    public void createNotification( String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay)
-    {
+    public void createNotification(String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay) {
         //ScoreNotification not = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 0);
-       // not.Notify();
+        // not.Notify();
         //ScoreNotification not2 = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 1);
         //not2.Notify();
     }
@@ -99,10 +96,9 @@ public class MainActivity extends AppCompatActivity {
     private void updateUI() {
         //added log messages for test purposes
         for (int i = 0; i < currentGameList.size(); i++) {
-            Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | "+ currentGameList.get(i).getAwayScore());
+            Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | " + currentGameList.get(i).getAwayScore());
 
-            if (cardList.size() < currentGameList.size())
-            {
+            if (cardList.size() < currentGameList.size()) {
                 cardList.add(new CardLogic(currentGameList.get(i)));
             }
 
@@ -119,44 +115,40 @@ public class MainActivity extends AppCompatActivity {
                 ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i).getHomeTeam(), currentGameList.get(i).getAwayTeam(),
                         currentGameList.get(i).getHomeScore(), currentGameList.get(i).getAwayScore(), currentGameList.get(i).getLastPlay(), i);
             //TODO: Do cards creation/UI update inside
+            }
+
             if (currNotificationList.size() < currentGameList.size()) {
 
                 ScoreNotification not = new ScoreNotification(this, notificationManager,
                         currentGameList.get(i).getHomeTeam(),
                         currentGameList.get(i).getAwayTeam(),
-                        currentGameList.get(i).getHomeScore() ,
+                        currentGameList.get(i).getHomeScore(),
                         currentGameList.get(i).getAwayScore(),
                         currentGameList.get(i).getLastPlay());
 
                 // Uncomment if need to be notified of all current games
-                //not.Notify(i);
+                not.Notify(i);
                 currNotificationList.add(not);
             }
             // TODO: Change if parameters to modify when notifications are sent
-            if (currentGameList.get(i).getQuarter() > 0)
-            {
+            if (currentGameList.get(i).getQuarter() > 0) {
                 // only notifies if the home score, away score or latest play have been updated
                 if (currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
-                    currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore() ||
-                    !(currNotificationList.get(i).GetCurrLatestPlay().equals( currentGameList.get(i).getLastPlay())))
-                 {
-                     currNotificationList.get(i).SetNotifHomeName(currentGameList.get(i).getHomeTeam());
-                     currNotificationList.get(i).SetNotifAwayName(currentGameList.get(i).getAwayTeam());
-                     currNotificationList.get(i).SetNotifHomeScore (currentGameList.get(i).getHomeScore());
-                     currNotificationList.get(i).SetNotifAwayScore (currentGameList.get(i).getAwayScore());
-                     currNotificationList.get(i).SetNotifLatestPlay(currentGameList.get(i).getLastPlay());
+                        currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore() ||
+                        !(currNotificationList.get(i).GetCurrLatestPlay().equals(currentGameList.get(i).getLastPlay()))) {
 
-                     currNotificationList.get(i).Notify(i);
+                    currNotificationList.get(i).SetNotifHomeName(currentGameList.get(i).getHomeTeam());
+                    currNotificationList.get(i).SetNotifAwayName(currentGameList.get(i).getAwayTeam());
+                    currNotificationList.get(i).SetNotifHomeScore(currentGameList.get(i).getHomeScore());
+                    currNotificationList.get(i).SetNotifAwayScore(currentGameList.get(i).getAwayScore());
+                    currNotificationList.get(i).SetNotifLatestPlay(currentGameList.get(i).getLastPlay());
+
+                    currNotificationList.get(i).Notify(i);
                 }
             }
-
+        }
 
     }
-
-}
-
-
-
 
 
     //executes async task to update live scores every timer interval, running on ui thread
@@ -170,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         try {
                             //only fetch scores when network connection is available
-                            if(isNetworkAvailable()) {
+                            if (isNetworkAvailable()) {
                                 APICall apiScoreGetter = new APICall();
                                 // PerformBackgroundTask this class is the class that extends AsynchTask
                                 apiScoreGetter.execute();
@@ -184,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
         };
         timer.schedule(asynchronousTask, 0, 5000); //execute in every 5 seconds
     }
-
 
 
     //async task for GET requests to REST API
@@ -204,3 +195,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
