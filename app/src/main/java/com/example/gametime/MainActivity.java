@@ -3,6 +3,8 @@ package com.example.gametime;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 import android.app.Notification;
@@ -32,6 +34,11 @@ public class MainActivity extends AppCompatActivity {
     private NotificationManagerCompat notificationManager;
     private DatabaseHelper db;
 
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    ArrayList<CardLogic> exampleList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,15 +46,30 @@ public class MainActivity extends AppCompatActivity {
         //currentGameList = new ArrayList<>();
         notificationManager = NotificationManagerCompat.from(this);
 
+
+//        exampleList.add(new CardLogic("6:00pm", R.drawable.toronto_raptors, R.drawable.lakers, "Rapotors", "Lakers", "35", "23", "Lebron made a 3-point play", "Q2", "1:30"));
+//        exampleList.add(new CardLogic("8:00pm", R.drawable.milwaukee_bucks, R.drawable.miami_heat, "Bucks", "Heat", "46", "30", "Buttler blocked by Giannis", "Q3", "2:05"));
+//        exampleList.add(new CardLogic("9:00pm", R.drawable.celtics, R.drawable.golden_state_warriors, "Celtics", "Warriors", "33", "25", "3 points by Walker", "Q2", "4:11"));
+//        exampleList.add(new CardLogic("8:00pm", R.drawable.okc, R.drawable.bulls, "Thunder", "Bulls", "54", "40", "Foul called on Chris Paul", "Q4", "3:40"));
+
+/*
+
+        currentGameList.add(new Game("Raptors", "Lakers", 35, 23, 2, "Lebron made a 3-point play", 700, "1:30"));
+        currentGameList.add(new Game("Bucks", "Heat", 45, 40, 4, "Buttler blocked by Giannis", 900, "2:05"));
+        currentGameList.add(new Game("Warriors", "Celtics", 12, 15, 1, "3 points by Walker", 1000, "4:11"));
+        //currentGameList.add(new Game("8:00pm", R.drawable.okc, R.drawable.bulls, "Thunder", "Bulls", "54", "40", "Foul called on Chris Paul", "Q4", "3:40"));
+*/
+
+
         dataBaseTester();
 
         //if user has active internet connection get live scores
-       // if(isNetworkAvailable()) {
-            //callAsynchronousTask();
+        // if(isNetworkAvailable()) {
+        callAsynchronousTask();
         //}
         //condition for when network connection is not available
         //else {
-           // Log.i("TEST", "NO INTERNET");
+        // Log.i("TEST", "NO INTERNET");
         //}
     }
 
@@ -109,6 +131,38 @@ public class MainActivity extends AppCompatActivity {
         //added log messages for test purposes
         for (int i = 0; i < currentGameList.size(); i++) {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | "+ currentGameList.get(i).getAwayScore());
+/*
+            if (currentGameList.get(i).getQuarter() > -1) {
+                mRecyclerView = findViewById(R.id.recyclerView);
+                mRecyclerView.setHasFixedSize(true);
+                mLayoutManager = new LinearLayoutManager(this);
+                //mAdapter = new Adapter(exampleList);
+                mAdapter = new Adapter(currentGameList);
+
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mRecyclerView.setAdapter(mAdapter);
+            }*/
+
+            if (exampleList.size() < currentGameList.size())
+            {
+                exampleList.add(new CardLogic(currentGameList.get(i).getMatchTime().toString(),
+                                                R.drawable.okc, R.drawable.bulls,
+                        currentGameList.get(i).getHomeTeam(), currentGameList.get(i).getAwayTeam(),
+                        currentGameList.get(i).getHomeScore(), currentGameList.get(i).getAwayScore(),
+                        currentGameList.get(i).getLastPlay(),
+                        currentGameList.get(i).getQuarter(),
+                        currentGameList.get(i).getQuarterTime()));
+            }
+            if (currentGameList.get(i).getQuarter() > -1) {
+                mRecyclerView = findViewById(R.id.recyclerView);
+                mRecyclerView.setHasFixedSize(true);
+                mLayoutManager = new LinearLayoutManager(this);
+                mAdapter = new Adapter(exampleList);
+                //mAdapter = new Adapter(currentGameList);
+
+                mRecyclerView.setLayoutManager(mLayoutManager);
+                mRecyclerView.setAdapter(mAdapter);
+            }
         }
 
     }
