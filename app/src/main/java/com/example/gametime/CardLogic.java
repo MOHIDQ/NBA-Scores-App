@@ -5,24 +5,24 @@ public class CardLogic {
     private int mAwayLogo;
     private String mHomeTeam;
     private String mAwayTeam;
-    private int mHomeScore;
-    private int mAwayScore;
+    private String mHomeScore;
+    private String mAwayScore;
     private String mLatestPlay;
-    private int mQuarter;
+    private String mQuarter;
     private String mQuarterTime;
     private String mMatchTime;
 
-    public CardLogic(String matchTime, int homeLogo, int awayLogo, String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay, int quarter, String quarterTime) {
-        mHomeLogo = homeLogo;
-        mAwayLogo = awayLogo;
-        mHomeTeam = homeTeam;
-        mAwayTeam = awayTeam;
-        mHomeScore = homeScore;
-        mAwayScore = awayScore;
-        mLatestPlay = latestPlay;
-        mQuarter = quarter;
-        mQuarterTime = quarterTime;
-        mMatchTime = matchTime;
+    public CardLogic(Game gameData) {
+        mHomeLogo = R.drawable.ic_notification_logo;
+        mAwayLogo = R.drawable.ic_notification_logo;
+        mHomeTeam = gameData.getHomeTeam();
+        mAwayTeam = gameData.getAwayTeam();
+        mHomeScore = gameData.getHomeScore() + "";
+        mAwayScore = gameData.getAwayScore() + "";
+        mLatestPlay = gameData.getLastPlay();
+        mQuarter = gameData.getQuarter() + "";
+        mQuarterTime = gameData.getQuarterTime() + "";
+        mMatchTime = gameData.getMatchTime() + "";
     }
 
     public String getMatchTime() {
@@ -46,11 +46,9 @@ public class CardLogic {
         return mAwayTeam;
     }
 
-    public int getHomeScore() {
-        return mHomeScore;
-    }
+    public String getHomeScore() { return mHomeScore; }
 
-    public int getAwayScore() {
+    public String getAwayScore() {
         return mAwayScore;
     }
 
@@ -58,7 +56,7 @@ public class CardLogic {
         return mLatestPlay;
     }
 
-    public int getQuarter() {
+    public String getQuarter() {
         return mQuarter;
     }
 

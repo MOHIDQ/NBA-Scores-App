@@ -131,27 +131,10 @@ public class MainActivity extends AppCompatActivity {
         //added log messages for test purposes
         for (int i = 0; i < currentGameList.size(); i++) {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | "+ currentGameList.get(i).getAwayScore());
-/*
-            if (currentGameList.get(i).getQuarter() > -1) {
-                mRecyclerView = findViewById(R.id.recyclerView);
-                mRecyclerView.setHasFixedSize(true);
-                mLayoutManager = new LinearLayoutManager(this);
-                //mAdapter = new Adapter(exampleList);
-                mAdapter = new Adapter(currentGameList);
-
-                mRecyclerView.setLayoutManager(mLayoutManager);
-                mRecyclerView.setAdapter(mAdapter);
-            }*/
 
             if (exampleList.size() < currentGameList.size())
             {
-                exampleList.add(new CardLogic(currentGameList.get(i).getMatchTime().toString(),
-                                                R.drawable.okc, R.drawable.bulls,
-                        currentGameList.get(i).getHomeTeam(), currentGameList.get(i).getAwayTeam(),
-                        currentGameList.get(i).getHomeScore(), currentGameList.get(i).getAwayScore(),
-                        currentGameList.get(i).getLastPlay(),
-                        currentGameList.get(i).getQuarter(),
-                        currentGameList.get(i).getQuarterTime()));
+                exampleList.add(new CardLogic(currentGameList.get(i)));
             }
             if (currentGameList.get(i).getQuarter() > -1) {
                 mRecyclerView = findViewById(R.id.recyclerView);
