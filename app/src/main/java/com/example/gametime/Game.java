@@ -46,63 +46,32 @@ public class Game {
         return homeTeam;
     }
 
-    public void setHomeTeam(String homeTeam) {
-        this.homeTeam = homeTeam;
-    }
-
     public String getAwayTeam() {
         return awayTeam;
-    }
-
-    public void setAwayTeam(String awayTeam) {
-        this.awayTeam = awayTeam;
     }
 
     public int getHomeScore() {
         return homeScore;
     }
 
-    public void setHomeScore(int homeScore) {
-        this.homeScore = homeScore;
-    }
-
     public int getAwayScore() {
         return awayScore;
-    }
-
-    public void setAwayScore(int awayScore) {
-        this.awayScore = awayScore;
     }
 
     public int getQuarter() {
         return quarter;
     }
 
-    public void setQuarter(int quarter) {
-        this.quarter = quarter;
-    }
-
     public String getLastPlay() {
         return latestPlay;
-    }
-
-    public void setLastPlay(String lastPlay) {
-        this.latestPlay = lastPlay;
     }
 
     public Date getMatchTime() {
         return new java.util.Date((long)matchTime*1000);
     }
 
-    public void setMatchTime(int     matchTime) {
-        this.matchTime = matchTime;
-    }
-
     public String getQuarterTime() {
         return quarterTime;
     }
 
-    public void setQuarterTime(String quarterTime) {
-        this.quarterTime = quarterTime;
-    }
 }
