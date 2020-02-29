@@ -65,18 +65,15 @@ class ScoreNotification {
         mManager.notify(10, mSummaryNotification);
     }
 
-    void SetNotifHomeName (String name) { mHomeTeam = name; };
-    void SetNotifAwayName(String name) { mAwayTeam = name; };
-    void SetNotifHomeScore(int score) { mHomeScore = score; };
-    void SetNotifAwayScore(int score) { mAwayScore = score; };
-    void SetNotifLatestPlay(String play)
-    {
-        mLatestPlay = play;
-    }
+    void SetNotifHomeName (String name) { mHomeTeam = name; }
+    void SetNotifAwayName(String name) { mAwayTeam = name; }
+    void SetNotifHomeScore(int score) { mHomeScore = score; }
+    void SetNotifAwayScore(int score) { mAwayScore = score; }
+    void SetNotifLatestPlay(String play) { mLatestPlay = play; }
 
-    String GetCurrHomeName() { return mHomeTeam; };
-    String GetCurrAwayName() { return mAwayTeam; };
-    int GetCurrHomeScore() { return mHomeScore; };
-    int GetCurrAwayScore() { return mAwayScore; };
-    String GetCurrLatestPlay() { return mLatestPlay;};
+    String GetCurrHomeName() { return mHomeTeam; }
+    String GetCurrAwayName() { return mAwayTeam; }
+    int GetCurrHomeScore() { return mHomeScore; }
+    int GetCurrAwayScore() { return mAwayScore; }
+    String GetCurrLatestPlay() { return mLatestPlay; }
 }
