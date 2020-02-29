@@ -110,44 +110,39 @@ public class MainActivity extends AppCompatActivity {
 
                 mRecyclerView.setLayoutManager(mLayoutManager);
                 mRecyclerView.setAdapter(mAdapter);
-            if ( currentGameList.get(i).getQuarter() >= 1)
-            {
-                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i).getHomeTeam(), currentGameList.get(i).getAwayTeam(),
-                        currentGameList.get(i).getHomeScore(), currentGameList.get(i).getAwayScore(), currentGameList.get(i).getLastPlay(), i);
-            //TODO: Do cards creation/UI update inside
-            }
 
-            if (currNotificationList.size() < currentGameList.size()) {
+                if (currNotificationList.size() < currentGameList.size()) {
 
-                ScoreNotification not = new ScoreNotification(this, notificationManager,
-                        currentGameList.get(i).getHomeTeam(),
-                        currentGameList.get(i).getAwayTeam(),
-                        currentGameList.get(i).getHomeScore(),
-                        currentGameList.get(i).getAwayScore(),
-                        currentGameList.get(i).getLastPlay());
+                    ScoreNotification not = new ScoreNotification(this, notificationManager,
+                            currentGameList.get(i).getHomeTeam(),
+                            currentGameList.get(i).getAwayTeam(),
+                            currentGameList.get(i).getHomeScore(),
+                            currentGameList.get(i).getAwayScore(),
+                            currentGameList.get(i).getLastPlay());
 
-                // Uncomment if need to be notified of all current games
-                not.Notify(i);
-                currNotificationList.add(not);
-            }
-            // TODO: Change if parameters to modify when notifications are sent
-            if (currentGameList.get(i).getQuarter() > 0) {
-                // only notifies if the home score, away score or latest play have been updated
-                if (currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
-                        currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore() ||
-                        !(currNotificationList.get(i).GetCurrLatestPlay().equals(currentGameList.get(i).getLastPlay()))) {
+                    // Uncomment if need to be notified of all current games
+                    not.Notify(i);
+                    currNotificationList.add(not);
+                }
+                // TODO: Change if parameters to modify when notifications are sent
+                if (currentGameList.get(i).getQuarter() > 0) {
+                    // only notifies if the home score, away score or latest play have been updated
+                    if (currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
+                            currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore() ||
+                            !(currNotificationList.get(i).GetCurrLatestPlay().equals(currentGameList.get(i).getLastPlay()))) {
 
-                    currNotificationList.get(i).SetNotifHomeName(currentGameList.get(i).getHomeTeam());
-                    currNotificationList.get(i).SetNotifAwayName(currentGameList.get(i).getAwayTeam());
-                    currNotificationList.get(i).SetNotifHomeScore(currentGameList.get(i).getHomeScore());
-                    currNotificationList.get(i).SetNotifAwayScore(currentGameList.get(i).getAwayScore());
-                    currNotificationList.get(i).SetNotifLatestPlay(currentGameList.get(i).getLastPlay());
+                        currNotificationList.get(i).SetNotifHomeName(currentGameList.get(i).getHomeTeam());
+                        currNotificationList.get(i).SetNotifAwayName(currentGameList.get(i).getAwayTeam());
+                        currNotificationList.get(i).SetNotifHomeScore(currentGameList.get(i).getHomeScore());
+                        currNotificationList.get(i).SetNotifAwayScore(currentGameList.get(i).getAwayScore());
+                        currNotificationList.get(i).SetNotifLatestPlay(currentGameList.get(i).getLastPlay());
 
-                    currNotificationList.get(i).Notify(i);
+                        currNotificationList.get(i).Notify(i);
+                    }
                 }
             }
-        }
 
+        }
     }
 
 
@@ -195,4 +190,5 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
 
