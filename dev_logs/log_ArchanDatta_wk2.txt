@@ -1,0 +1,4 @@
+I researched ways to implement the notification system for the app. Designing it in a modular way
+  so that the class will be accessible and customized easily through the program ~ 3 hours
+
+This week I plan on implementing the notification class and testing.

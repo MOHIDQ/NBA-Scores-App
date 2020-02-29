@@ -1,0 +1,10 @@
+Weekly Dev logs posted by each group member are located in this directory "dev_logs".
+
+2020-02-14
+
+Salman Haider
+-------------
+
+- Completed the implementation of the Splash Screen for our app and fully tested it. Implementation + testing ~ 4hrs.
+- Resized logo to fit emulator screens.
+- Will now begin working on the settings page of our app.

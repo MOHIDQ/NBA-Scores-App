@@ -1,0 +1,4 @@
+Assisted team member with building the recyclerview and cards to facilitate scrolling game cards
+within the app.
+Also researched ways to send notification with specific conditions being met on the updateUIfunction.
+~5 hours   

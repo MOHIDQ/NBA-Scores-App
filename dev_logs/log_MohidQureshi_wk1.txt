@@ -1,0 +1,6 @@
+Application has ability to access rest api via get http request and gets readable JSON data back that contain all the current games being
+played today, and live updates for those games. - approximately took 3 hours to complete
+
+This week I plan on parsing the JSON data into Game java objects which will make it much easier to work with when creating
+the user interface. I also plan on researching more about the REST API and its return types for each end point for cases such
+as when a game goes into multiple overtime and how to handle those cases. - should approximately take 3-4 hours to complete.

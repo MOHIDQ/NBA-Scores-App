@@ -1,0 +1,7 @@
+Application now is able to parse JSON data in Game objects that is retrieved from the REST API. All games are put into an arraylist
+of Game objects. I also modularized the fragment of code that did network access to the API and the fragment that did the JSON parsing
+into a separate class outside of the MainActivity. - Approximately took 5-6 hours to complete
+
+This Week I plan on adding a polling system to the retrieve data from the REST API ie) every few seconds retrieve all the
+scores from the API and do the appropriate parsing. I also plan on creating a local SQLite database that will store user specific
+information such as, users favourite team, time and score differential user wants to be notified. - expected to take 4 hours to complete
