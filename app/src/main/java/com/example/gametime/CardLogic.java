@@ -67,5 +67,18 @@ public class CardLogic {
     }
 
     //setters
+    public void setHomeTeam(String newHT) { this.mHomeTeam = newHT; }
+
+    public void setAwayTeam(String newAT) { this.mAwayTeam = newAT; }
+
+    public void setHomeScore(int newHS) { this.mHomeScore= newHS; }
+
+    public void setAwayScore(int newAS) { this.mAwayScore = newAS; }
+
+    public void setLatestPlay(String newLP) { this.mLatestPlay = newLP; }
+
+    public void setQuarter(int newQuarter) { this.mQuarter = newQuarter; }
+
+    public void setQuarterTime(String newQT) { this.mQuarterTime = newQT; }
 
 }
