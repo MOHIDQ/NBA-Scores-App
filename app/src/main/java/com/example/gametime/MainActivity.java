@@ -103,6 +103,23 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (currentGameList.get(i).getQuarter() > -6) {
+
+                if ((currentGameList.get(i).getHomeScore() != Integer.parseInt(cardList.get(i).getHomeScore())) |
+                        (currentGameList.get(i).getAwayScore() != Integer.parseInt(cardList.get(i).getAwayScore())) |
+                        (currentGameList.get(i).getQuarter() != Integer.parseInt(cardList.get(i).getQuarter())) |
+                        (currentGameList.get(i).getQuarterTime() != cardList.get(i).getQuarterTime()) |
+                        (currentGameList.get(i).getLastPlay() != cardList.get(i).getLatestPlay()))
+
+                {
+                    cardList.get(i).setHomeScore(String.valueOf(currentGameList.get(i).getHomeScore()));
+                    cardList.get(i).setAwayScore(String.valueOf(currentGameList.get(i).getAwayScore()));
+                    cardList.get(i).setQuarter(String.valueOf(currentGameList.get(i).getQuarter()));
+                    cardList.get(i).setQuarterTime(String.valueOf(currentGameList.get(i).getQuarterTime()));
+                    cardList.get(i).setLatestPlay(String.valueOf(currentGameList.get(i).getLastPlay()));
+
+
+                }
+
                 mRecyclerView = findViewById(R.id.recyclerView);
                 mRecyclerView.setHasFixedSize(true);
                 mLayoutManager = new LinearLayoutManager(this);
