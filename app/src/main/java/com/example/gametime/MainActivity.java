@@ -22,7 +22,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    public ArrayList<Game> currentGameList = new ArrayList<>(); //contain all game data
+    public ArrayList<Game> currentGameList; //contain all game data
     private NotificationManagerCompat notificationManager;
     public ArrayList<ScoreNotification> currNotificationList = new ArrayList<>();
     private DatabaseHelper db;
@@ -36,18 +36,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        currentGameList = new ArrayList<>();
         notificationManager = NotificationManagerCompat.from(this);
 
         dataBaseTester();
 
         //if user has active internet connection get live scores
-        if (isNetworkAvailable()) {
+       // if (isNetworkAvailable()) {
             callAsynchronousTask();
-        }
+     //   }
 //        condition for when network connection is not available
-        else {
+      //  else {
             Log.i("TEST", "NO INTERNET");
-        }
+      //  }
     }
 
     private void dataBaseTester() {
@@ -136,9 +137,9 @@ public class MainActivity extends AppCompatActivity {
                             currentGameList.get(i).getHomeScore(),
                             currentGameList.get(i).getAwayScore(),
                             currentGameList.get(i).getLastPlay());
-
+                    
                     // Uncomment if need to be notified of all current games
-                    not.Notify(i);
+//                    not.Notify(i);
                     currNotificationList.add(not);
                 }
                 // TODO: Change if parameters to modify when notifications are sent
