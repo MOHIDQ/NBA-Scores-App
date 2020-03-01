@@ -1,7 +1,5 @@
 package com.example.gametime;
 
-import android.graphics.drawable.Drawable;
-
 public class CardLogic {
     private int mHomeLogo;
     private int mAwayLogo;
@@ -27,40 +25,39 @@ public class CardLogic {
         mMatchTime = gameData.getMatchTime() + "";
     }
 
-    public String getMatchTime() {
+    String getMatchTime() {
         return mMatchTime;
     }
 
-    public int getHomeLogo() {
+    int getHomeLogo() {
         return mHomeLogo;
     }
-
-    public int getAwayLogo() {
+    int getAwayLogo() {
         return mAwayLogo;
     }
 
     //getters
-    public String getHomeTeam() {
+   String getHomeTeam() {
         return mHomeTeam;
     }
 
-    public String getAwayTeam() {
+    String getAwayTeam() {
         return mAwayTeam;
     }
 
-    public String getHomeScore() { return mHomeScore; }
+    String getHomeScore() { return mHomeScore; }
 
-    public String getAwayScore() {
+    String getAwayScore() {
         return mAwayScore;
     }
 
-    public String getLatestPlay() {
+    String getLatestPlay() {
         return mLatestPlay;
     }
 
-    public String getQuarter() { return mQuarter; }
+    String getQuarter() { return mQuarter; }
 
-    public String getQuarterTime() {
+    String getQuarterTime() {
         return mQuarterTime;
     }
 
@@ -78,5 +75,17 @@ public class CardLogic {
         mLatestPlay = updatedData.getLastPlay();
         mQuarter = String.valueOf(updatedData.getQuarter());
         mQuarterTime = updatedData.getQuarterTime();
+    }
+
+    boolean isUpdated(Game game)
+    {
+        boolean rc = false;
+        if ((game.getHomeScore() != Integer.parseInt(mHomeScore) |
+                (game.getAwayScore() != Integer.parseInt(mAwayScore)) |
+                (game.getQuarter() != Integer.parseInt(mQuarter)) |
+                !(game.getQuarterTime().equals(mQuarterTime)) |
+                !(game.getLastPlay().equals(mLatestPlay))))
+            rc = true;
+        return rc;
     }
 }

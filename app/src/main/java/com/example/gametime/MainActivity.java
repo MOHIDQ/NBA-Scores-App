@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (cardList.size() < currentGameList.size()) {
 
-                // get the image from the folder and pass it in
+                // get the image from the folder and pass it into the card
                 String homeName = currentGameList.get(i).getHomeTeam().replaceAll(" ","_").toLowerCase();
                 int homeLogo = getResources().getIdentifier(homeName, "drawable", getPackageName());
                 String awayName = currentGameList.get(i).getAwayTeam().replaceAll(" ","_").toLowerCase();
@@ -103,11 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (currentGameList.get(i).getQuarter() > -6) {
-                if ((currentGameList.get(i).getHomeScore() != Integer.parseInt(cardList.get(i).getHomeScore())) |
-                        (currentGameList.get(i).getAwayScore() != Integer.parseInt(cardList.get(i).getAwayScore())) |
-                        (currentGameList.get(i).getQuarter() != Integer.parseInt(cardList.get(i).getQuarter())) |
-                        !(currentGameList.get(i).getQuarterTime().equals(cardList.get(i).getQuarterTime())) |
-                        !(currentGameList.get(i).getLastPlay().equals(cardList.get(i).getLatestPlay())))
+                if (cardList.get(i).isUpdated(currentGameList.get(i)))
                 {
                     cardList.get(i).UpdateCard(currentGameList.get(i));
                     mAdapter.notifyItemChanged(i);
@@ -125,10 +121,7 @@ public class MainActivity extends AppCompatActivity {
                 if (currentGameList.get(i).getQuarter() > 0) {
 
                     // only notifies if the home score, away score or latest play have been updated
-                    if (currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
-                            currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore() ||
-                            !(currNotificationList.get(i).GetCurrLatestPlay().equals(currentGameList.get(i).getLastPlay()))) {
-
+                    if (currNotificationList.get(i).IsUpdated(currentGameList.get(i))) {
                         currNotificationList.get(i).UpdateNotification(currentGameList.get(i));
                         currNotificationList.get(i).Notify(i);
                     }

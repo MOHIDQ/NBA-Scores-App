@@ -73,24 +73,20 @@ class ScoreNotification {
         mLatestPlay = updatedData.getLastPlay();
     }
 
-    void EndGame() { mLatestPlay = "Finished"; }
-
     String GetCurrHomeName() { return mHomeTeam; }
     String GetCurrAwayName() { return mAwayTeam; }
     int GetCurrHomeScore() { return mHomeScore; }
     int GetCurrAwayScore() { return mAwayScore; }
     String GetCurrLatestPlay() { return mLatestPlay; }
 
-    boolean Compare(Game game)
+    boolean IsUpdated(Game game)
     {
         boolean rc = false;
-
-        // if they are not equal return true
-        if (this.mHomeTeam.equals("") || this.mAwayTeam.equals("") )
+        if (mHomeScore != game.getHomeScore() ||
+                mAwayScore!= game.getAwayScore() ||
+                !(mLatestPlay.equals(game.getLastPlay()))) {
             rc = true;
-        else if (!(game.getHomeTeam().equals(this.mHomeTeam)) || !(game.getAwayTeam().equals(this.mAwayTeam)) )
-            rc = true;
-
+        }
         return rc;
     }
 }
