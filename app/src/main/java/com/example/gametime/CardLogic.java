@@ -1,5 +1,7 @@
 package com.example.gametime;
 
+import android.graphics.drawable.Drawable;
+
 public class CardLogic {
     private int mHomeLogo;
     private int mAwayLogo;
@@ -12,9 +14,9 @@ public class CardLogic {
     private String mQuarterTime;
     private String mMatchTime;
 
-    public CardLogic(Game gameData) {
-        mHomeLogo = R.drawable.ic_notification_logo;
-        mAwayLogo = R.drawable.ic_notification_logo;
+    public CardLogic(Game gameData, int homeLogo, int awayLogo ) {
+        mHomeLogo = homeLogo;
+        mAwayLogo = awayLogo;
         mHomeTeam = gameData.getHomeTeam();
         mAwayTeam = gameData.getAwayTeam();
         mHomeScore = gameData.getHomeScore() + "";
@@ -67,18 +69,14 @@ public class CardLogic {
 
     public void setAwayTeam(String newAT) { this.mAwayTeam = newAT; }
 
-    public void setHomeScore(String newHS) { this.mHomeScore= newHS; }
-
-    public void setAwayScore(String newAS) { this.mAwayScore = newAS; }
-
-    public void setLatestPlay(String newLP) { this.mLatestPlay = newLP; }
-
-    public void setQuarter(String newQuarter)
+    void UpdateCard(Game updatedData)
     {
-        if ( newQuarter.equals("50"))
-        mQuarter = "Halftime";
+        mHomeTeam = updatedData.getHomeTeam();
+        mAwayTeam = updatedData.getAwayTeam();
+        mHomeScore = String.valueOf(updatedData.getHomeScore());
+        mAwayScore = String.valueOf(updatedData.getAwayScore());
+        mLatestPlay = updatedData.getLastPlay();
+        mQuarter = String.valueOf(updatedData.getQuarter());
+        mQuarterTime = updatedData.getQuarterTime();
     }
-
-    public void setQuarterTime(String newQT) { this.mQuarterTime = newQT; }
-
 }

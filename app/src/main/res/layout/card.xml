@@ -62,8 +62,7 @@
                 android:layout_height="102dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
-                app:srcCompat="@drawable/ic_notification_logo" />
+                android:padding="5dp"/>
 
             <LinearLayout
                 android:layout_width="68dp"
@@ -98,8 +97,7 @@
                 android:layout_height="102dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:padding="5dp"
-                app:srcCompat="@drawable/ic_notification_logo" />
+                android:padding="5dp"/>
         </LinearLayout>
 
         <LinearLayout

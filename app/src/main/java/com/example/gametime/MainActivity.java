@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -72,23 +71,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-    public void sendOnScoreUpdate(View v) {
-        // notification test function
-        //createNotification("Raptors", "Lakers", 50,23, "Lebron James made a 3point play");
-        ScoreNotification check = currNotificationList.get(0);
-        ScoreNotification check2 = currNotificationList.get(1);
-        check.Notify(0);
-        //check2.Notify(5);
-    }
-
-    public void createNotification(String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay) {
-        //ScoreNotification not = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 0);
-        // not.Notify();
-        //ScoreNotification not2 = new ScoreNotification(this, notificationManager, homeTeam, awayTeam, homeScore, awayScore, latestPlay, 1);
-        //not2.Notify();
-    }
-
     //if network connection is available run async task for getting scores data
     public boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -107,30 +89,30 @@ public class MainActivity extends AppCompatActivity {
                 cardList.clear();
 
             if (cardList.size() < currentGameList.size()) {
-                cardList.add(new CardLogic(currentGameList.get(i)));
+
+                // get the image from the folder and pass it in
+                String homeName = currentGameList.get(i).getHomeTeam().replaceAll(" ","_").toLowerCase();
+                int homeLogo = getResources().getIdentifier(homeName, "drawable", getPackageName());
+                String awayName = currentGameList.get(i).getAwayTeam().replaceAll(" ","_").toLowerCase();
+                int awayLogo = getResources().getIdentifier(awayName, "drawable", getPackageName());
+
+                cardList.add(new CardLogic(currentGameList.get(i), homeLogo, awayLogo));
 
                 mAdapter = new Adapter(cardList);
                 mRecyclerView.setAdapter(mAdapter);
             }
 
             if (currentGameList.get(i).getQuarter() > -6) {
-
                 if ((currentGameList.get(i).getHomeScore() != Integer.parseInt(cardList.get(i).getHomeScore())) |
                         (currentGameList.get(i).getAwayScore() != Integer.parseInt(cardList.get(i).getAwayScore())) |
                         (currentGameList.get(i).getQuarter() != Integer.parseInt(cardList.get(i).getQuarter())) |
                         !(currentGameList.get(i).getQuarterTime().equals(cardList.get(i).getQuarterTime())) |
                         !(currentGameList.get(i).getLastPlay().equals(cardList.get(i).getLatestPlay())))
-
                 {
-                    cardList.get(i).setHomeScore(String.valueOf(currentGameList.get(i).getHomeScore()));
-                    cardList.get(i).setAwayScore(String.valueOf(currentGameList.get(i).getAwayScore()));
-                    cardList.get(i).setQuarter(String.valueOf(currentGameList.get(i).getQuarter()));
-                    cardList.get(i).setQuarterTime(String.valueOf(currentGameList.get(i).getQuarterTime()));
-                    cardList.get(i).setLatestPlay(currentGameList.get(i).getLastPlay());
-
+                    cardList.get(i).UpdateCard(currentGameList.get(i));
                     mAdapter.notifyItemChanged(i);
                 }
-
+            }
                 if (currNotificationList.size() < currentGameList.size()) {
                     ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i));
 
@@ -151,14 +133,8 @@ public class MainActivity extends AppCompatActivity {
                         currNotificationList.get(i).Notify(i);
                     }
                 }
-                else if (currentGameList.get(i).getQuarter() == -1)
-                {
-                    currNotificationList.get(i).EndGame();
-                    currNotificationList.get(i).Notify(i);
-                }
             }
         }
-    }
 
 
     //executes async task to update live scores every timer interval, running on ui thread
