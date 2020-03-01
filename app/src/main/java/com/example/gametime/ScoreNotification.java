@@ -4,7 +4,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.SystemClock;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -17,19 +16,19 @@ class ScoreNotification {
     private Notification mSummaryNotification;
     private NotificationManagerCompat mManager;
 
-    private String mHomeTeam;
-    private String mAwayTeam;
+    private String mHomeTeam = "";
+    private String mAwayTeam = "";
     private int mHomeScore;
     private int mAwayScore;
     private String mLatestPlay;
 
-    ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, String homeTeam, String awayTeam, int homeScore, int awayScore, String latestPlay)
+    ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, Game gameData)
     {
-        mHomeTeam = homeTeam;
-        mAwayTeam = awayTeam;
-        mHomeScore = homeScore;
-        mAwayScore = awayScore;
-        mLatestPlay = latestPlay;
+        mHomeTeam = gameData.getHomeTeam();
+        mAwayTeam = gameData.getAwayTeam();
+        mHomeScore = gameData.getHomeScore();
+        mAwayScore = gameData.getAwayScore();
+        mLatestPlay = gameData.getLastPlay();
         mManager = manager;
 
         Intent activityIntent = new Intent(mainActivity, MainActivity.class);
@@ -65,15 +64,33 @@ class ScoreNotification {
         mManager.notify(10, mSummaryNotification);
     }
 
-    void SetNotifHomeName (String name) { mHomeTeam = name; }
-    void SetNotifAwayName(String name) { mAwayTeam = name; }
-    void SetNotifHomeScore(int score) { mHomeScore = score; }
-    void SetNotifAwayScore(int score) { mAwayScore = score; }
-    void SetNotifLatestPlay(String play) { mLatestPlay = play; }
+    void UpdateNotification (Game updatedData)
+    {
+        mHomeTeam = updatedData.getHomeTeam();
+        mAwayTeam = updatedData.getAwayTeam();
+        mHomeScore = updatedData.getHomeScore();
+        mAwayScore = updatedData.getAwayScore();
+        mLatestPlay = updatedData.getLastPlay();
+    }
+
+    void EndGame() { mLatestPlay = "Finished"; }
 
     String GetCurrHomeName() { return mHomeTeam; }
     String GetCurrAwayName() { return mAwayTeam; }
     int GetCurrHomeScore() { return mHomeScore; }
     int GetCurrAwayScore() { return mAwayScore; }
     String GetCurrLatestPlay() { return mLatestPlay; }
+
+    boolean Compare(Game game)
+    {
+        boolean rc = false;
+
+        // if they are not equal return true
+        if (this.mHomeTeam.equals("") || this.mAwayTeam.equals("") )
+            rc = true;
+        else if (!(game.getHomeTeam().equals(this.mHomeTeam)) || !(game.getAwayTeam().equals(this.mAwayTeam)) )
+            rc = true;
+
+        return rc;
+    }
 }

@@ -56,9 +56,7 @@ public class CardLogic {
         return mLatestPlay;
     }
 
-    public String getQuarter() {
-        return mQuarter;
-    }
+    public String getQuarter() { return mQuarter; }
 
     public String getQuarterTime() {
         return mQuarterTime;
@@ -75,7 +73,11 @@ public class CardLogic {
 
     public void setLatestPlay(String newLP) { this.mLatestPlay = newLP; }
 
-    public void setQuarter(String newQuarter) { this.mQuarter = newQuarter; }
+    public void setQuarter(String newQuarter)
+    {
+        if ( newQuarter.equals("50"))
+        mQuarter = "Halftime";
+    }
 
     public void setQuarterTime(String newQT) { this.mQuarterTime = newQT; }
 

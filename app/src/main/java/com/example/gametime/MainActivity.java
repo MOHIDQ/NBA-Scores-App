@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
 
 import android.content.Context;
@@ -27,8 +26,8 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<ScoreNotification> currNotificationList = new ArrayList<>();
     private DatabaseHelper db;
 
-    private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
+    private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<CardLogic> cardList = new ArrayList<>();
 
@@ -38,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         currentGameList = new ArrayList<>();
         notificationManager = NotificationManagerCompat.from(this);
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         dataBaseTester();
 
@@ -99,8 +102,15 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < currentGameList.size(); i++) {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | " + currentGameList.get(i).getAwayScore());
 
+            // TODO: Test overnight 12 at night
+            if (!cardList.isEmpty() && !(cardList.get(0).getHomeTeam().equals(currentGameList.get(0).getHomeTeam())))
+                cardList.clear();
+
             if (cardList.size() < currentGameList.size()) {
                 cardList.add(new CardLogic(currentGameList.get(i)));
+
+                mAdapter = new Adapter(cardList);
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             if (currentGameList.get(i).getQuarter() > -6) {
@@ -108,58 +118,45 @@ public class MainActivity extends AppCompatActivity {
                 if ((currentGameList.get(i).getHomeScore() != Integer.parseInt(cardList.get(i).getHomeScore())) |
                         (currentGameList.get(i).getAwayScore() != Integer.parseInt(cardList.get(i).getAwayScore())) |
                         (currentGameList.get(i).getQuarter() != Integer.parseInt(cardList.get(i).getQuarter())) |
-                        (currentGameList.get(i).getQuarterTime() != cardList.get(i).getQuarterTime()) |
-                        (currentGameList.get(i).getLastPlay() != cardList.get(i).getLatestPlay()))
+                        !(currentGameList.get(i).getQuarterTime().equals(cardList.get(i).getQuarterTime())) |
+                        !(currentGameList.get(i).getLastPlay().equals(cardList.get(i).getLatestPlay())))
 
                 {
                     cardList.get(i).setHomeScore(String.valueOf(currentGameList.get(i).getHomeScore()));
                     cardList.get(i).setAwayScore(String.valueOf(currentGameList.get(i).getAwayScore()));
                     cardList.get(i).setQuarter(String.valueOf(currentGameList.get(i).getQuarter()));
                     cardList.get(i).setQuarterTime(String.valueOf(currentGameList.get(i).getQuarterTime()));
-                    cardList.get(i).setLatestPlay(String.valueOf(currentGameList.get(i).getLastPlay()));
+                    cardList.get(i).setLatestPlay(currentGameList.get(i).getLastPlay());
 
-                    mRecyclerView = findViewById(R.id.recyclerView);
-                    mRecyclerView.setHasFixedSize(true);
-                    mLayoutManager = new LinearLayoutManager(this);
-                    mAdapter = new Adapter(cardList);
-
-                    mRecyclerView.setLayoutManager(mLayoutManager);
-                    mRecyclerView.setAdapter(mAdapter);
-
+                    mAdapter.notifyItemChanged(i);
                 }
-
 
                 if (currNotificationList.size() < currentGameList.size()) {
+                    ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i));
 
-                    ScoreNotification not = new ScoreNotification(this, notificationManager,
-                            currentGameList.get(i).getHomeTeam(),
-                            currentGameList.get(i).getAwayTeam(),
-                            currentGameList.get(i).getHomeScore(),
-                            currentGameList.get(i).getAwayScore(),
-                            currentGameList.get(i).getLastPlay());
-                    
                     // Uncomment if need to be notified of all current games
-//                    not.Notify(i);
+                    //not.Notify(i);
                     currNotificationList.add(not);
                 }
+
                 // TODO: Change if parameters to modify when notifications are sent
                 if (currentGameList.get(i).getQuarter() > 0) {
+
                     // only notifies if the home score, away score or latest play have been updated
                     if (currNotificationList.get(i).GetCurrHomeScore() != currentGameList.get(i).getHomeScore() ||
                             currNotificationList.get(i).GetCurrAwayScore() != currentGameList.get(i).getAwayScore() ||
                             !(currNotificationList.get(i).GetCurrLatestPlay().equals(currentGameList.get(i).getLastPlay()))) {
 
-                        currNotificationList.get(i).SetNotifHomeName(currentGameList.get(i).getHomeTeam());
-                        currNotificationList.get(i).SetNotifAwayName(currentGameList.get(i).getAwayTeam());
-                        currNotificationList.get(i).SetNotifHomeScore(currentGameList.get(i).getHomeScore());
-                        currNotificationList.get(i).SetNotifAwayScore(currentGameList.get(i).getAwayScore());
-                        currNotificationList.get(i).SetNotifLatestPlay(currentGameList.get(i).getLastPlay());
-
+                        currNotificationList.get(i).UpdateNotification(currentGameList.get(i));
                         currNotificationList.get(i).Notify(i);
                     }
                 }
+                else if (currentGameList.get(i).getQuarter() == -1)
+                {
+                    currNotificationList.get(i).EndGame();
+                    currNotificationList.get(i).Notify(i);
+                }
             }
-
         }
     }
 
