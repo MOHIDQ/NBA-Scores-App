@@ -2,10 +2,12 @@ package com.example.gametime;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -15,6 +17,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;

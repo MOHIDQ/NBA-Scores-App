@@ -53,7 +53,7 @@ class ScoreNotification {
                 .build();
     }
 
-    private void Notify(int id)
+    public void Notify(int id)
     {
         // update the notification content
         mNotification.setContentTitle(mHomeTeam + " " + mHomeScore + " - " + mAwayScore + " " + mAwayTeam);
