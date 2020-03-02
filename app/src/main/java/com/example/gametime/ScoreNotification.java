@@ -53,7 +53,7 @@ class ScoreNotification {
                 .build();
     }
 
-    void Notify(int id)
+    public void Notify(int id)
     {
         // update the notification content
         mNotification.setContentTitle(mHomeTeam + " " + mHomeScore + " - " + mAwayScore + " " + mAwayTeam);
@@ -64,29 +64,14 @@ class ScoreNotification {
         mManager.notify(10, mSummaryNotification);
     }
 
-    void UpdateNotification (Game updatedData)
+    void UpdateNotification (Game updatedData, int id)
     {
-        mHomeTeam = updatedData.getHomeTeam();
-        mAwayTeam = updatedData.getAwayTeam();
-        mHomeScore = updatedData.getHomeScore();
-        mAwayScore = updatedData.getAwayScore();
-        mLatestPlay = updatedData.getLastPlay();
-    }
-
-    String GetCurrHomeName() { return mHomeTeam; }
-    String GetCurrAwayName() { return mAwayTeam; }
-    int GetCurrHomeScore() { return mHomeScore; }
-    int GetCurrAwayScore() { return mAwayScore; }
-    String GetCurrLatestPlay() { return mLatestPlay; }
-
-    boolean IsUpdated(Game game)
-    {
-        boolean rc = false;
-        if (mHomeScore != game.getHomeScore() ||
-                mAwayScore!= game.getAwayScore() ||
-                !(mLatestPlay.equals(game.getLastPlay()))) {
-            rc = true;
-        }
-        return rc;
+        if (mHomeScore != updatedData.getHomeScore())
+            mHomeScore = updatedData.getHomeScore();
+        if (mAwayScore!= updatedData.getAwayScore())
+            mAwayScore = updatedData.getAwayScore();
+        if (!(mLatestPlay.equals(updatedData.getLastPlay())))
+            mLatestPlay = updatedData.getLastPlay();
+        Notify(id);
     }
 }

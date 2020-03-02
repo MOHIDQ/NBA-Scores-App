@@ -2,10 +2,12 @@ package com.example.gametime;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
@@ -15,6 +17,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -119,12 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // TODO: Change if parameters to modify when notifications are sent
                 if (currentGameList.get(i).getQuarter() > 0) {
-
                     // only notifies if the home score, away score or latest play have been updated
-                    if (currNotificationList.get(i).IsUpdated(currentGameList.get(i))) {
-                        currNotificationList.get(i).UpdateNotification(currentGameList.get(i));
-                        currNotificationList.get(i).Notify(i);
-                    }
+                    currNotificationList.get(i).UpdateNotification(currentGameList.get(i), i);
                 }
             }
         }
