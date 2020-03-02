@@ -37,9 +37,7 @@ public class CardLogic {
     }
 
     //getters
-   String getHomeTeam() {
-        return mHomeTeam;
-    }
+   String getHomeTeam() { return mHomeTeam; }
 
     String getAwayTeam() {
         return mAwayTeam;
@@ -55,7 +53,38 @@ public class CardLogic {
         return mLatestPlay;
     }
 
-    String getQuarter() { return mQuarter; }
+    String getQuarter() {
+
+        if (Integer.parseInt(mQuarter) == 0) { return "Not Started"; }
+
+        else if (Integer.parseInt(mQuarter) == 1) { return "Q1"; }
+
+        else if (Integer.parseInt(mQuarter) == 2) { return "Q2"; }
+
+        else if (Integer.parseInt(mQuarter) == 3) { return "Q3"; }
+
+        else if (Integer.parseInt(mQuarter) == 4) { return "Q4"; }
+
+        else if (Integer.parseInt(mQuarter) == 5) { return "1st OT"; }
+
+        else if (Integer.parseInt(mQuarter) == 6) { return "2nd OT"; }
+
+        else if (Integer.parseInt(mQuarter) == 7) { return "3rd OT"; }
+
+        else if (Integer.parseInt(mQuarter) == 50) { return "Half-time"; }
+
+        else if (Integer.parseInt(mQuarter) == -1) { return "Finished"; }
+
+        else if (Integer.parseInt(mQuarter) == -2) { return "TBD"; }
+
+        else if (Integer.parseInt(mQuarter) == -3) { return "Interrupted"; }
+
+        else if (Integer.parseInt(mQuarter) == -4) { return "Cancelled"; }
+
+        else if (Integer.parseInt(mQuarter) == -5) { return "Postponed"; }
+
+        else { return mQuarter; }
+    }
 
     String getQuarterTime() {
         return mQuarterTime;
