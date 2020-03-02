@@ -119,12 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
                 // TODO: Change if parameters to modify when notifications are sent
                 if (currentGameList.get(i).getQuarter() > 0) {
-
                     // only notifies if the home score, away score or latest play have been updated
-                    if (currNotificationList.get(i).IsUpdated(currentGameList.get(i))) {
-                        currNotificationList.get(i).UpdateNotification(currentGameList.get(i));
-                        currNotificationList.get(i).Notify(i);
-                    }
+                    currNotificationList.get(i).UpdateNotification(currentGameList.get(i), i);
                 }
             }
         }
