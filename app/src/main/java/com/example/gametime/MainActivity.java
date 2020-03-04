@@ -20,11 +20,13 @@ import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.MissingFormatArgumentException;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
-    public ArrayList<Game> currentGameList; //contain all game data
+    public List<Game> currentGameList; //contain all game data
     private NotificationManagerCompat notificationManager;
     public ArrayList<ScoreNotification> currNotificationList = new ArrayList<>();
     private DatabaseHelper db;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<CardLogic> cardList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
      //   }
 //        condition for when network connection is not available
       //  else {
-            Log.i("TEST", "NO INTERNET");
+           // Log.i("TEST", "NO INTERNET");
       //  }
     }
 
@@ -142,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         try {
                             //only fetch scores when network connection is available
                             if (isNetworkAvailable()) {
+                                currentGameList.clear();
                                 APICall apiScoreGetter = new APICall();
                                 // PerformBackgroundTask this class is the class that extends AsynchTask
                                 apiScoreGetter.execute();

@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScoreParser {
     private static String STRING_URL = "http://api.isportsapi.com/sport/basketball/livescores?api_key=e2inHJ71Nvpk49T8";
@@ -26,17 +27,18 @@ public class ScoreParser {
     private static String LATEST_PLAY = "explain";
     private static String MATCH_TIME = "matchTime";
     private static String QUARTER_TIME = "quarterRemainTime";
+    private static int numberOfGames;
 
     public ScoreParser() {
         //nothing so far
     }
 
-    public static ArrayList<Game> parseGames(String result) {
+    public static List<Game> parseGames(String result) {
         try {
             JSONObject jsonObj = new JSONObject(result);
 
             JSONArray games = jsonObj.getJSONArray("data");
-
+            numberOfGames = games.length();
             for (int i = 0; i < games.length(); i++) {
                 JSONObject g = games.getJSONObject(i);
 
@@ -56,7 +58,7 @@ public class ScoreParser {
             e.printStackTrace();
         }
 
-        return allGames;
+        return allGames.subList(0, numberOfGames);
     }
     //function that retrieves JSON data and returns JSON data from REST API
     public static String getDataFromAPI() {
