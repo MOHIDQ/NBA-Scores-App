@@ -62,20 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void dataBaseTester() {
         db = new DatabaseHelper(this);
-
-        Cursor result = db.getData();
-        if (result.getCount() == 0) {
-            //show message
-            Log.i("CURSOR", "NO DATA");
-        } else {
-            StringBuffer buffer = new StringBuffer();
-            while (result.moveToNext()) {
-                buffer.append("time: " + result.getString(0) + "\n");
-                buffer.append("points: " + result.getString(1) + "\n");
-                buffer.append("team: " + result.getString(2) + "\n");
-            }
-            Log.i("CURSOR", buffer.toString());
-        }
+       Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam());
     }
 
     //if network connection is available run async task for getting scores data

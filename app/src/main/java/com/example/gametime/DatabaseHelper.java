@@ -57,4 +57,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor result = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
         return result;
     }
+
+    public String getTimeRemaining() {
+        Cursor result = getData();
+        StringBuffer buffer = new StringBuffer();
+        while(result.moveToNext()) {
+            buffer.append(result.getString(0));
+        }
+        return buffer.toString();
+    }
+
+    public String getScoreDifferential() {
+        Cursor result = getData();
+        StringBuffer buffer = new StringBuffer();
+        while(result.moveToNext()) {
+            buffer.append(result.getString(1));
+        }
+        return buffer.toString();
+    }
+
+    public String getFavouriteTeam() {
+        Cursor result = getData();
+        StringBuffer buffer = new StringBuffer();
+        while(result.moveToNext()) {
+            buffer.append(result.getString(2));
+        }
+        return buffer.toString();
+    }
+
+
 }
