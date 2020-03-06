@@ -1,0 +1,4 @@
+This week I hepled worked on Deliverable 2 with my other group members where we created a presentation showcasing our apps
+functionality, out difficulties and what we have planned for next month. We also created a component diagram of our current 
+application. - took approx 5 hours to complete. I plan on creating a parser for the dates of each game to display only the time on the cards of each game. 
+As awell as create a parser for the last play to only show the play being made, excluding the score and team. 

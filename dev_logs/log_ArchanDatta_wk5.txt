@@ -1,0 +1,3 @@
+This week I tested notifications thoroughly, understanding when to check for conditions and when
+to send a new notification. Assisted team member with Game Cards and loading in the team logos
+dynamnically. Did some code clean up and refactoring to keep the main activity class clean. ~10hours

@@ -1,0 +1,3 @@
+Fixed update functions for score differential, time to be notified and favourite team selection fields/attributes in
+our SQLite database. Also tested functionality between the database and fetching scores through the API when application
+is running in the background/closed. - Took approximately 2 hours. 
