@@ -66,10 +66,14 @@ public class Game {
         return latestPlay;
     }
 
-    public Date getMatchTime() {
+    public Date getAllMatchTime() {
         return new java.util.Date((long)matchTime*1000);
     }
 
+    public String getMatchTime() {
+        String fullMatchTime = getAllMatchTime().toString();
+        return "Today: " + (Integer.parseInt(fullMatchTime.substring(11, 13)) % 12) + fullMatchTime.substring(13, 20) + "PM " + fullMatchTime.substring(20, 24);
+    }
     public String getQuarterTime() {
         return quarterTime;
     }
