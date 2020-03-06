@@ -11,15 +11,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_1 = "TIME_REM";
     private static final String COL_2 = "POINTS_DIFF";
     private static final String COL_3 = "FAV_TEAM";
+    private static final String COL_4 = "QUARTER";
 
 
     public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, 2);
+        super(context, DATABASE_NAME, null, 3);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        sqLiteDatabase.execSQL("create table "+ TABLE_NAME + " (TIME_REM varchar(24) DEFAULT '4:00', POINTS_DIFF varchar(24) DEFAULT '5', FAV_TEAM varchar(24) DEFAULT 'N/A')");
+        sqLiteDatabase.execSQL("create table "+ TABLE_NAME + " (TIME_REM varchar(24) DEFAULT '4:00', POINTS_DIFF varchar(24) DEFAULT '5', FAV_TEAM varchar(24) DEFAULT 'N/A', QUARTER varchar(8) DEFAULT '4')");
 
         //sets default data for database
         insertDefaultData(sqLiteDatabase);
@@ -50,6 +51,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void updateFavTeam(String team) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("UPDATE " + TABLE_NAME + " SET " + COL_3 + " = " + "'" + team + "'");
+    }
+
+    //update favourite quarter column
+    public void updateQuarter(String quarter) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("UPDATE " + TABLE_NAME + " SET " + COL_4 + " = " + "'" + quarter + "'");
     }
 
     public Cursor getData() {
@@ -85,5 +92,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return buffer.toString();
     }
 
+    public String getQuarter() {
+        Cursor result = getData();
+        StringBuffer buffer = new StringBuffer();
+        while(result.moveToNext()) {
+            buffer.append(result.getString(3));
+        }
+        return buffer.toString();
+    }
 
 }

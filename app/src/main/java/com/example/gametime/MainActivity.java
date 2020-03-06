@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void dataBaseTester() {
         db = new DatabaseHelper(this);
-       Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam());
+       Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam() + "      " + db.getQuarter());
     }
 
     //if network connection is available run async task for getting scores data
