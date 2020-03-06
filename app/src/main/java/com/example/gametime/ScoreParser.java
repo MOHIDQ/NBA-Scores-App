@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ScoreParser {
@@ -51,7 +52,11 @@ public class ScoreParser {
                 int matchTime = g.getInt(MATCH_TIME);
                 String quarterTime = g.getString(QUARTER_TIME);
 
-                allGames.add(new Game(homeName, awayName, homeScore, awayScore, quarter, latestPlay, matchTime, quarterTime));
+                Date allMatchTime = new java.util.Date((long)matchTime*1000);
+                String fullMatchTime = allMatchTime.toString();
+                String matchTimeString = "Today: " + (Integer.parseInt(fullMatchTime.substring(11, 13)) % 12) + fullMatchTime.substring(13, 20) + "PM " + fullMatchTime.substring(20, 24);
+
+                allGames.add(new Game(homeName, awayName, homeScore, awayScore, quarter, latestPlay, matchTimeString, quarterTime));
             }
 
         } catch (JSONException e) {
