@@ -1,0 +1,13 @@
+Weekly Dev logs posted by each group member are located in this directory "dev_logs".
+
+
+Salman Haider
+-------------
+
+- Changed the implementation of our settings screen to match requirements.
+- The settings screen utilizes the android alert dialog to display 3 input fields for user preferences which are the following:
+  - Time left in game that the user wants to be notified at.
+  - Point difference in the game that the user wants to notified at.
+  - Favorite team.
+  - The above took ~ 5hrs to complete
+- Currently working on repositioning the settings button to suit layout requirements. Required time to complete ~1hr
