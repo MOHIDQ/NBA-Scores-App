@@ -73,7 +73,7 @@ public class CardLogic {
 
         else if (Integer.parseInt(mQuarter) == 50) { return "Half-time"; }
 
-        else if (Integer.parseInt(mQuarter) == -1) { return "Finished"; }
+        else if (Integer.parseInt(mQuarter) == -1) { return ""; }
 
         else if (Integer.parseInt(mQuarter) == -2) { return "TBD"; }
 
