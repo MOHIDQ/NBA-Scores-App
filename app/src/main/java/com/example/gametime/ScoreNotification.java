@@ -59,19 +59,30 @@ class ScoreNotification {
         mNotification.setContentTitle(mHomeTeam + " " + mHomeScore + " - " + mAwayScore + " " + mAwayTeam);
         mNotification.setContentText(mLatestPlay);
 
-        //TODO: Myabe add some sort of sleep so that notifications dont come in at the same time. Ask team
         mManager.notify(id+20, mNotification.build());
         mManager.notify(10, mSummaryNotification);
     }
 
-    void UpdateNotification (Game updatedData, int id)
+    void UpdateNotification (Game updatedData, int id, DatabaseHelper db)
     {
-        if (mHomeScore != updatedData.getHomeScore())
-            mHomeScore = updatedData.getHomeScore();
-        if (mAwayScore!= updatedData.getAwayScore())
-            mAwayScore = updatedData.getAwayScore();
-        if (!(mLatestPlay.equals(updatedData.getLastPlay())))
-            mLatestPlay = updatedData.getLastPlay();
-        Notify(id);
+        int pointDiff = Math.abs(updatedData.getHomeScore() - updatedData.getAwayScore());
+
+        //TODO: Add fav team criteria
+        if (Integer.parseInt(db.getQuarter()) == 4)
+        {
+            if (Integer.parseInt(db.getTimeRemaining()) < Integer.parseInt(updatedData.getQuarterTime()))
+            {
+                if (Integer.parseInt(db.getScoreDifferential()) > pointDiff || Integer.parseInt(db.getScoreDifferential()) == pointDiff)
+                {
+                    if (mHomeScore != updatedData.getHomeScore())
+                        mHomeScore = updatedData.getHomeScore();
+                    if (mAwayScore!= updatedData.getAwayScore())
+                        mAwayScore = updatedData.getAwayScore();
+                    if (!(mLatestPlay.equals(updatedData.getLastPlay())))
+                        mLatestPlay = updatedData.getLastPlay();
+                    Notify(id);
+                }
+            }
+        }
     }
 }
