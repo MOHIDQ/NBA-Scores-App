@@ -1,0 +1,4 @@
+I parsed the start match date to include only the time. I added extra functions to the databasehelper class to be able to 
+return attributes from the database easier for those wanting to get those values, rather than doing the parsing 
+each time the database is used. I also added a quarter count attribute to the SQLite database, which will represents
+at which quarter the user wants to be notified at. - In total took approximately 3-4 hours. 
