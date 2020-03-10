@@ -65,22 +65,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public String getTimeRemaining() {
+    public int getTimeRemaining() {
         Cursor result = getData();
         StringBuffer buffer = new StringBuffer();
         while(result.moveToNext()) {
             buffer.append(result.getString(0));
         }
-        return buffer.toString();
+        // TODO: change ":00" to something more logical
+        return Integer.parseInt(buffer.toString().replace(":00", ""));
     }
 
-    public String getScoreDifferential() {
+    public int getScoreDifferential() {
         Cursor result = getData();
         StringBuffer buffer = new StringBuffer();
         while(result.moveToNext()) {
             buffer.append(result.getString(1));
         }
-        return buffer.toString();
+        return Integer.parseInt(buffer.toString());
     }
 
     public String getFavouriteTeam() {
@@ -92,13 +93,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return buffer.toString();
     }
 
-    public String getQuarter() {
+    public int getQuarter() {
         Cursor result = getData();
         StringBuffer buffer = new StringBuffer();
         while(result.moveToNext()) {
             buffer.append(result.getString(3));
         }
-        return buffer.toString();
+        return Integer.parseInt(buffer.toString());
     }
 
 }

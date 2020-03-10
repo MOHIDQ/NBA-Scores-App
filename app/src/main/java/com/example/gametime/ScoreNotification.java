@@ -22,9 +22,8 @@ class ScoreNotification extends Game implements GameMonitor {
     private int mAwayScore;
     private String mLatestPlay;
     private DatabaseHelper mdb;
-    private int mNotifId;
 
-    ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, Game gameData, DatabaseHelper db, int id) {
+    ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, Game gameData, DatabaseHelper db) {
         super(
                 gameData.getHomeTeam(),
                 gameData.getAwayTeam(),
@@ -39,7 +38,6 @@ class ScoreNotification extends Game implements GameMonitor {
         mAwayTeam = gameData.getAwayTeam();
         mManager = manager;
         mdb = db;
-        mNotifId = id;
 
         Intent activityIntent = new Intent(mainActivity, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mainActivity,
@@ -100,7 +98,7 @@ class ScoreNotification extends Game implements GameMonitor {
 //    }
 
     @Override
-    public void Update(Game updatedData) {
+    public void Update(Game updatedData, int id) {
 
         if (mHomeScore != updatedData.getHomeScore())
             mHomeScore = updatedData.getHomeScore();
@@ -112,22 +110,22 @@ class ScoreNotification extends Game implements GameMonitor {
         int pointDiff = Math.abs(updatedData.getHomeScore() - updatedData.getAwayScore());
 
 //        if (updatedData.getQuarter() == Integer.parseInt(quater)) {
-        if (Integer.parseInt(mdb.getScoreDifferential()) > pointDiff || Integer.parseInt(mdb.getScoreDifferential()) == pointDiff) {
-            Notify(mNotifId);
+        if (mdb.getScoreDifferential() < pointDiff || mdb.getScoreDifferential() == pointDiff) {
+            Notify(id);
         }
 //        }
 
         //TODO: Add fav team criteria
-        if (updatedData.getQuarter() == 0) {
+        if (updatedData.getQuarter() > 0) {
 //            if (Integer.parseInt(timeRemaining.replace(":00","")) < Integer.parseInt(updatedData.getQuarterTime()))
 //            {
-            Notify(mNotifId);
+            Notify(id);
 //            }
         }
     }
 
     @Override
-    public Boolean IsUpdated(Game updatedGame) {
+    public boolean IsUpdated(Game updatedGame) {
         return !(updatedGame.getHomeTeam().equals(mHomeTeam));
     }
 }

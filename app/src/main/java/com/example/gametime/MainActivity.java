@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private NotificationManagerCompat notificationManager;
     public ArrayList<ArrayList<GameMonitor>> monitors = new ArrayList<>();
     public ArrayList<GameMonitor> currNotificationList = new ArrayList<>();
-    ArrayList<GameMonitor> cardList = new ArrayList<>();
+    public ArrayList<GameMonitor> cardList = new ArrayList<>();
     private DatabaseHelper db;
 
     private RecyclerView.Adapter mAdapter;
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                 cardList.clear();
                 currNotificationList.clear();
             }
-            if (cardList.size() < currentGameList.size()) {
+            if (cardList.size() != currentGameList.size() || currNotificationList.size() != currentGameList.size()) {
 
                 // get the image from the folder and pass it into the card
                 String homeName = currentGameList.get(i).getHomeTeam().replaceAll(" ", "_").toLowerCase();
@@ -87,19 +87,15 @@ public class MainActivity extends AppCompatActivity {
                 String awayName = currentGameList.get(i).getAwayTeam().replaceAll(" ", "_").toLowerCase();
                 int awayLogo = getResources().getIdentifier(awayName, "drawable", getPackageName());
 
-                cardList.add(new CardLogic(currentGameList.get(i), homeLogo, awayLogo));
+                mAdapter = new Adapter(cardList);
+
+                cardList.add(new CardLogic(currentGameList.get(i), homeLogo, awayLogo, mAdapter));
                 monitors.add(cardList);
 
-                mAdapter = new Adapter(cardList);
                 mRecyclerView.setAdapter(mAdapter);
-            }
+//                mAdapter.notifyItemChanged(i);
 
-            if (currentGameList.get(i).getQuarter() > -6) {
-                Notify(currentGameList.get(i), cardList.get(i));
-                mAdapter.notifyItemChanged(i);
-            }
-            if (currNotificationList.size() < currentGameList.size()) {
-                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i), db, i);
+                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i), db);
 
                 // Uncomment if need to be notified of all current games
                 //not.Notify(i);
@@ -108,14 +104,14 @@ public class MainActivity extends AppCompatActivity {
                 monitors.add(currNotificationList);
             }
 
-            if (currentGameList.get(i).getQuarter() > 0) {
-                Notify(currentGameList.get(i), currNotificationList.get(i));
-            }
+            Notify(currentGameList.get(i), i);
         }
     }
 
-    public void Notify(Game currentGame, GameMonitor notifyObject) {
-        notifyObject.Update(currentGame);
+    public void Notify(Game currentGame, int index) {
+        for (ArrayList<GameMonitor> monitor : monitors) {
+            monitor.get(index).Update(currentGame, index);
+        }
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.gametime;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 public class CardLogic extends Game implements GameMonitor {
     private String mHomeTeam;
     private String mAwayTeam;
@@ -10,8 +12,9 @@ public class CardLogic extends Game implements GameMonitor {
     private String mLatestPlay;
     private int mQuarter;
     private String mQuarterTime;
+    private RecyclerView.Adapter mAdapter;
 
-    public CardLogic(Game gameData, int homeLogo, int awayLogo) {
+    public CardLogic(Game gameData, int homeLogo, int awayLogo, RecyclerView.Adapter adapter) {
 
         super(
                 gameData.getHomeTeam(),
@@ -27,6 +30,7 @@ public class CardLogic extends Game implements GameMonitor {
         mAwayTeam = gameData.getAwayTeam();
         mHomeLogo = homeLogo;
         mAwayLogo = awayLogo;
+        mAdapter = adapter;
     }
 
     int getHomeLogo() {
@@ -57,22 +61,38 @@ public class CardLogic extends Game implements GameMonitor {
     }
 
     @Override
-    public void Update(Game updatedData) {
-        if (mHomeScore != updatedData.getHomeScore())
-            mHomeScore = updatedData.getHomeScore();
-        if (mAwayScore != updatedData.getAwayScore())
-            mAwayScore = updatedData.getAwayScore();
-        if (!(updatedData.getLastPlay().equals(mLatestPlay)))
-            mLatestPlay = updatedData.getLastPlay();
-        if (mQuarter != updatedData.getQuarter())
-            mQuarter = updatedData.getQuarter();
-        if (updatedData.getQuarterTime().equals(mQuarterTime))
-            mQuarterTime = updatedData.getQuarterTime();
+    public void Update(Game updatedData, int id) {
 
+        // TODO: redo this to call notify on only items changed
+        boolean itemChanged = false;
+
+        if (mHomeScore != updatedData.getHomeScore()) {
+            mHomeScore = updatedData.getHomeScore();
+            itemChanged = true;
+        }
+        if (mAwayScore != updatedData.getAwayScore()) {
+            mAwayScore = updatedData.getAwayScore();
+            itemChanged = true;
+        }
+        if (!(updatedData.getLastPlay().equals(mLatestPlay))) {
+            mLatestPlay = updatedData.getLastPlay();
+            itemChanged = true;
+        }
+        if (mQuarter != updatedData.getQuarter()) {
+            mQuarter = updatedData.getQuarter();
+            itemChanged = true;
+        }
+        if (!(updatedData.getQuarterTime().equals(mQuarterTime))) {
+            mQuarterTime = updatedData.getQuarterTime();
+            itemChanged = true;
+        }
+
+        if (itemChanged)
+            mAdapter.notifyItemChanged(id);
     }
 
     @Override
-    public Boolean IsUpdated(Game updatedGame) {
+    public boolean IsUpdated(Game updatedGame) {
         return !(updatedGame.getHomeTeam().equals(mHomeTeam));
     }
 }
