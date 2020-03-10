@@ -75,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
 
             // TODO: Test overnight
             if (!cardList.isEmpty() && (cardList.get(0).IsUpdated(currentGameList.get(0)))) {
-                monitors.clear();
                 cardList.clear();
                 currNotificationList.clear();
+                monitors.clear();
             }
             if (cardList.size() != currentGameList.size() || currNotificationList.size() != currentGameList.size()) {
 
@@ -93,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 monitors.add(cardList);
 
                 mRecyclerView.setAdapter(mAdapter);
-//                mAdapter.notifyItemChanged(i);
 
                 ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i), db);
 

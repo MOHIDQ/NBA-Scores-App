@@ -109,6 +109,8 @@ class ScoreNotification extends Game implements GameMonitor {
 
         int pointDiff = Math.abs(updatedData.getHomeScore() - updatedData.getAwayScore());
 
+
+
 //        if (updatedData.getQuarter() == Integer.parseInt(quater)) {
         if (mdb.getScoreDifferential() < pointDiff || mdb.getScoreDifferential() == pointDiff) {
             Notify(id);
