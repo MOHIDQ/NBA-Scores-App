@@ -13,22 +13,22 @@ import java.util.ArrayList;
 
 
 public class Adapter extends RecyclerView.Adapter<Adapter.ExampleViewHolder> {
-    private ArrayList<CardLogic> mExampleList;
+    private ArrayList<GameMonitor> mExampleList;
     //private ArrayList<Game> mExampleList;
 
-    public static class ExampleViewHolder extends RecyclerView.ViewHolder {
-        public ImageView mHomeLogo;
-        public ImageView mAwayLogo;
-        public TextView mHomeTeam;
-        public TextView mAwayTeam;
-        public TextView mHomeScore;
-        public TextView mAwayScore;
-        public TextView mLatestPlay;
-        public TextView mQuarter;
-        public TextView mQuarterTime;
-        public TextView mMatchTime;
+    static class ExampleViewHolder extends RecyclerView.ViewHolder {
+        ImageView mHomeLogo;
+        ImageView mAwayLogo;
+        TextView mHomeTeam;
+        TextView mAwayTeam;
+        TextView mHomeScore;
+        TextView mAwayScore;
+        TextView mLatestPlay;
+        TextView mQuarter;
+        TextView mQuarterTime;
+        TextView mMatchTime;
 
-        public ExampleViewHolder(View itemView) {
+        ExampleViewHolder(View itemView) {
             super(itemView);
             mHomeLogo = itemView.findViewById(R.id.homeLogo);
             mAwayLogo = itemView.findViewById(R.id.awayLogo);
@@ -43,7 +43,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ExampleViewHolder> {
         }
     }
 
-    public Adapter(ArrayList<CardLogic> currentGameList) {
+    Adapter(ArrayList<GameMonitor> currentGameList) {
         mExampleList = currentGameList;
     }
 
@@ -56,7 +56,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ExampleViewHolder> {
 
     @Override
     public void onBindViewHolder(ExampleViewHolder holder, int position) {
-        CardLogic currentItem = mExampleList.get(position);
+        CardLogic currentItem = (CardLogic) mExampleList.get(position);
 
         holder.mHomeLogo.setImageResource(currentItem.getHomeLogo());
         holder.mAwayLogo.setImageResource(currentItem.getAwayLogo());
@@ -75,7 +75,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ExampleViewHolder> {
         return mExampleList.size();
     }
 
-    String FormatQuater(int quarter) {
+    private String FormatQuater(int quarter) {
 
         if (quarter == 0) { return "Not Started"; }
 

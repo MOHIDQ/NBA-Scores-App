@@ -1,6 +1,8 @@
 package com.example.gametime;
 
-public class CardLogic extends Game{
+public class CardLogic extends Game implements GameMonitor {
+    private String mHomeTeam;
+    private String mAwayTeam;
     private int mHomeLogo;
     private int mAwayLogo;
     private int mHomeScore;
@@ -9,7 +11,7 @@ public class CardLogic extends Game{
     private int mQuarter;
     private String mQuarterTime;
 
-    public CardLogic(Game gameData, int homeLogo, int awayLogo ) {
+    public CardLogic(Game gameData, int homeLogo, int awayLogo) {
 
         super(
                 gameData.getHomeTeam(),
@@ -20,6 +22,9 @@ public class CardLogic extends Game{
                 gameData.getLastPlay(),
                 gameData.getMatchTime(),
                 gameData.getQuarterTime());
+
+        mHomeTeam = gameData.getHomeTeam();
+        mAwayTeam = gameData.getAwayTeam();
         mHomeLogo = homeLogo;
         mAwayLogo = awayLogo;
     }
@@ -27,12 +32,12 @@ public class CardLogic extends Game{
     int getHomeLogo() {
         return mHomeLogo;
     }
+
     int getAwayLogo() {
         return mAwayLogo;
     }
 
-    void UpdateCard(Game updatedData)
-    {
+    void UpdateCard(Game updatedData) {
         mHomeScore = updatedData.getHomeScore();
         mAwayScore = updatedData.getAwayScore();
         mLatestPlay = updatedData.getLastPlay();
@@ -40,8 +45,7 @@ public class CardLogic extends Game{
         mQuarterTime = updatedData.getQuarterTime();
     }
 
-    boolean isUpdated(Game game)
-    {
+    boolean isUpdated(Game game) {
         boolean rc = false;
         if ((game.getHomeScore() != mHomeScore) |
                 (game.getAwayScore() != mAwayScore) |
@@ -50,5 +54,25 @@ public class CardLogic extends Game{
                 !(game.getLastPlay().equals(mLatestPlay)))
             rc = true;
         return rc;
+    }
+
+    @Override
+    public void Update(Game updatedData) {
+        if (mHomeScore != updatedData.getHomeScore())
+            mHomeScore = updatedData.getHomeScore();
+        if (mAwayScore != updatedData.getAwayScore())
+            mAwayScore = updatedData.getAwayScore();
+        if (!(updatedData.getLastPlay().equals(mLatestPlay)))
+            mLatestPlay = updatedData.getLastPlay();
+        if (mQuarter != updatedData.getQuarter())
+            mQuarter = updatedData.getQuarter();
+        if (updatedData.getQuarterTime().equals(mQuarterTime))
+            mQuarterTime = updatedData.getQuarterTime();
+
+    }
+
+    @Override
+    public Boolean IsUpdated(Game updatedGame) {
+        return !(updatedGame.getHomeTeam().equals(mHomeTeam));
     }
 }
