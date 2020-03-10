@@ -10,25 +10,32 @@ import androidx.core.app.NotificationManagerCompat;
 
 import static com.example.gametime.App.GAMESCORES_CHANNEL_ID;
 
-class ScoreNotification {
+class ScoreNotification extends Game {
 
     private NotificationCompat.Builder mNotification;
     private Notification mSummaryNotification;
     private NotificationManagerCompat mManager;
 
-    private String mHomeTeam = "";
-    private String mAwayTeam = "";
+    private String mHomeTeam ;
+    private String mAwayTeam;
     private int mHomeScore;
     private int mAwayScore;
     private String mLatestPlay;
 
     ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, Game gameData)
     {
+        super(
+                gameData.getHomeTeam(),
+                gameData.getAwayTeam(),
+                gameData.getHomeScore(),
+                gameData.getAwayScore(),
+                gameData.getQuarter(),
+                gameData.getLastPlay(),
+                gameData.getMatchTime(),
+                gameData.getQuarterTime());
+
         mHomeTeam = gameData.getHomeTeam();
         mAwayTeam = gameData.getAwayTeam();
-        mHomeScore = gameData.getHomeScore();
-        mAwayScore = gameData.getAwayScore();
-        mLatestPlay = gameData.getLastPlay();
         mManager = manager;
 
         Intent activityIntent = new Intent(mainActivity, MainActivity.class);
@@ -53,7 +60,7 @@ class ScoreNotification {
                 .build();
     }
 
-    public void Notify(int id)
+    private void Notify(int id)
     {
         // update the notification content
         mNotification.setContentTitle(mHomeTeam + " " + mHomeScore + " - " + mAwayScore + " " + mAwayTeam);
@@ -63,26 +70,30 @@ class ScoreNotification {
         mManager.notify(10, mSummaryNotification);
     }
 
-    void UpdateNotification (Game updatedData, int id, DatabaseHelper db)
+    void UpdateNotification (Game updatedData, int id, String timeRemaining, String pointD, String quater)
     {
+        if (mHomeScore != updatedData.getHomeScore())
+            mHomeScore = updatedData.getHomeScore();
+        if (mAwayScore!= updatedData.getAwayScore())
+            mAwayScore = updatedData.getAwayScore();
+        if (!(updatedData.getLastPlay().equals(mLatestPlay)))
+            mLatestPlay = updatedData.getLastPlay();
+
         int pointDiff = Math.abs(updatedData.getHomeScore() - updatedData.getAwayScore());
 
-        //TODO: Add fav team criteria
-        if (Integer.parseInt(db.getQuarter()) == 4)
-        {
-            if (Integer.parseInt(db.getTimeRemaining()) < Integer.parseInt(updatedData.getQuarterTime()))
-            {
-                if (Integer.parseInt(db.getScoreDifferential()) > pointDiff || Integer.parseInt(db.getScoreDifferential()) == pointDiff)
-                {
-                    if (mHomeScore != updatedData.getHomeScore())
-                        mHomeScore = updatedData.getHomeScore();
-                    if (mAwayScore!= updatedData.getAwayScore())
-                        mAwayScore = updatedData.getAwayScore();
-                    if (!(mLatestPlay.equals(updatedData.getLastPlay())))
-                        mLatestPlay = updatedData.getLastPlay();
-                    Notify(id);
-                }
+//        if (updatedData.getQuarter() == Integer.parseInt(quater)) {
+            if (Integer.parseInt(pointD) > pointDiff || Integer.parseInt(pointD) == pointDiff) {
+                Notify(id);
             }
+//        }
+
+        //TODO: Add fav team criteria
+        if (updatedData.getQuarter() == 4)
+        {
+//            if (Integer.parseInt(timeRemaining.replace(":00","")) < Integer.parseInt(updatedData.getQuarterTime()))
+//            {
+                Notify(id);
+//            }
         }
     }
 }

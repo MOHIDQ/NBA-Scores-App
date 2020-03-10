@@ -79,9 +79,10 @@ public class MainActivity extends AppCompatActivity {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | " + currentGameList.get(i).getAwayScore());
 
             // TODO: Test overnight 12 at night
-            if (!cardList.isEmpty() && !(cardList.get(0).getHomeTeam().equals(currentGameList.get(0).getHomeTeam())))
+            if (!cardList.isEmpty() && !(cardList.get(0).getHomeTeam().equals(currentGameList.get(0).getHomeTeam()))) {
                 cardList.clear();
-
+                currNotificationList.clear();
+            }
             if (cardList.size() < currentGameList.size()) {
 
                 // get the image from the folder and pass it into the card
@@ -114,8 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: Change if parameters to modify when notifications are sent
                 if (currentGameList.get(i).getQuarter() > 0) {
                     // only notifies if the home score, away score or latest play have been updated
-                    currNotificationList.get(i).UpdateNotification(
-                            currentGameList.get(i), i, db);
+                    currNotificationList.get(i).UpdateNotification(currentGameList.get(i), i, db.getTimeRemaining(), db.getScoreDifferential(), db.getQuarter());
                 }
             }
         }
