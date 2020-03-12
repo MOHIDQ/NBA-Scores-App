@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EventStream {
     public List<Game> currentGameList; //contain all game data
     private NotificationManagerCompat notificationManager;
     public ArrayList<ArrayList<GameMonitor>> monitors = new ArrayList<>();
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     public ArrayList<GameMonitor> cardList = new ArrayList<>();
     private DatabaseHelper db;
 
-    private RecyclerView.Adapter mAdapter;
+    private Adapter mAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         dataBaseTester();
+        buildRecyclerView();
 
         //if user has active internet connection get live scores
         // if (isNetworkAvailable()) {
@@ -87,32 +88,34 @@ public class MainActivity extends AppCompatActivity {
                 String awayName = currentGameList.get(i).getAwayTeam().replaceAll(" ", "_").toLowerCase();
                 int awayLogo = getResources().getIdentifier(awayName, "drawable", getPackageName());
 
-                mAdapter = new Adapter(cardList);
-
-                cardList.add(new CardLogic(currentGameList.get(i), homeLogo, awayLogo, mAdapter));
+                cardList.add(new CardLogic(currentGameList.get(i), homeLogo, awayLogo));
                 monitors.add(cardList);
 
-                mRecyclerView.setAdapter(mAdapter);
-
-                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i), db);
+                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i),
+                        db.getScoreDifferential(),
+                        db.getTimeRemaining(),
+                        db.getQuarter(),
+                        db.getFavouriteTeam());
 
                 // Uncomment if need to be notified of all current games
                 //not.Notify(i);
                 currNotificationList.add(not);
+                mAdapter.notifyDataSetChanged();
 
                 monitors.add(currNotificationList);
+                for (ArrayList<GameMonitor> monitors : monitors) {
+                    monitors.get(0).Register(this);
+                }
             }
-
             Notify(currentGameList.get(i), i);
         }
     }
 
     public void Notify(Game currentGame, int index) {
         for (ArrayList<GameMonitor> monitor : monitors) {
-            monitor.get(index).Update(currentGame, index);
+            monitor.get(index).UpdateData(currentGame, index);
         }
     }
-
 
     //executes async task to update live scores every timer interval, running on ui thread
     public void callAsynchronousTask() {
@@ -141,6 +144,25 @@ public class MainActivity extends AppCompatActivity {
         timer.schedule(asynchronousTask, 0, 5000); //execute in every 5 seconds
     }
 
+    @Override
+    public void PostData(final int id) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                mAdapter.notifyItemChanged(id);
+            }
+        });
+    }
+
+    public void buildRecyclerView() {
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new Adapter(cardList);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+    }
 
     //async task for GET requests to REST API
     private class APICall extends AsyncTask<Void, Void, String> {

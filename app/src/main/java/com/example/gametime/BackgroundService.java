@@ -24,7 +24,7 @@ public class BackgroundService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
                 notificationIntent, 0);
         startForeground(NOTIF_ID, new NotificationCompat.Builder(this, GAMESCORES_CHANNEL_ID)
-                .setOngoing(true) // TODO: maybe change after dev
+                .setOngoing(true)
                 .setSmallIcon(R.drawable.ic_background_service_logo)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText("Service is running background")
@@ -34,18 +34,6 @@ public class BackgroundService extends Service {
     }
     @Override
     public int onStartCommand(Intent intent, int flags, int startId){
-
-        //MainActivity mainActivity = new MainActivity();
-        //if(MainActivity.getInstance() != null) {
-        //MainActivity.getInstance().callAsynchronousTask();
-        //}
-        //mainActivity.callAsynchronousTask();
-
-
-         //if(mainActivity.isNetworkAvailable()) {
-            //mainActivity.callAsynchronousTask();
-        //}
-
         return super.onStartCommand(intent, flags, startId);
     }
 

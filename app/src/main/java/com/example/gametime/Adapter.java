@@ -6,17 +6,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
 
-public class Adapter extends RecyclerView.Adapter<Adapter.ExampleViewHolder> {
+public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     private ArrayList<GameMonitor> mExampleList;
-    //private ArrayList<Game> mExampleList;
 
-    static class ExampleViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView mHomeLogo;
         ImageView mAwayLogo;
         TextView mHomeTeam;
@@ -28,7 +26,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ExampleViewHolder> {
         TextView mQuarterTime;
         TextView mMatchTime;
 
-        ExampleViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             mHomeLogo = itemView.findViewById(R.id.homeLogo);
             mAwayLogo = itemView.findViewById(R.id.awayLogo);
@@ -48,26 +46,26 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ExampleViewHolder> {
     }
 
     @Override
-    public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card, parent, false);
-        ExampleViewHolder evh = new ExampleViewHolder(v);
+        ViewHolder evh = new ViewHolder(v);
         return evh;
     }
 
     @Override
-    public void onBindViewHolder(ExampleViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         CardLogic currentItem = (CardLogic) mExampleList.get(position);
 
-        holder.mHomeLogo.setImageResource(currentItem.getHomeLogo());
-        holder.mAwayLogo.setImageResource(currentItem.getAwayLogo());
-        holder.mHomeTeam.setText(currentItem.getHomeTeam());
-        holder.mAwayTeam.setText(currentItem.getAwayTeam());
-        holder.mHomeScore.setText(Integer.toString(currentItem.getHomeScore()));
-        holder.mAwayScore.setText(Integer.toString(currentItem.getAwayScore()));
-        holder.mLatestPlay.setText(currentItem.getLastPlay());
-        holder.mQuarter.setText(FormatQuater(currentItem.getQuarter()));
-        holder.mQuarterTime.setText(currentItem.getQuarterTime());
-        holder.mMatchTime.setText(currentItem.getMatchTime().toString());
+        holder.mHomeLogo.setImageResource(currentItem.GetHomeLogo());
+        holder.mAwayLogo.setImageResource(currentItem.GetAwayLogo());
+        holder.mHomeTeam.setText(currentItem.GetHomeTeam());
+        holder.mAwayTeam.setText(currentItem.GetAwayTeam());
+        holder.mHomeScore.setText(currentItem.GetHomeScore());
+        holder.mAwayScore.setText(currentItem.GetAwayScore());
+        holder.mLatestPlay.setText(currentItem.GetLatestPlay());
+        holder.mQuarter.setText(FormatQuarter(currentItem.GetQuarter()));
+        holder.mQuarterTime.setText(currentItem.GetQuarterTime());
+        holder.mMatchTime.setText(currentItem.GetMatchTime());
     }
 
     @Override
@@ -75,7 +73,7 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ExampleViewHolder> {
         return mExampleList.size();
     }
 
-    private String FormatQuater(int quarter) {
+    private String FormatQuarter(int quarter) {
 
         if (quarter == 0) { return "Not Started"; }
 

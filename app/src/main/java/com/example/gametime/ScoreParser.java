@@ -36,7 +36,7 @@ public class ScoreParser {
 
     public static List<Game> parseGames(String result) {
         try {
-            JSONObject jsonObj = new JSONObject(result);
+             JSONObject jsonObj = new JSONObject(result);
 
             JSONArray games = jsonObj.getJSONArray("data");
             numberOfGames = games.length();

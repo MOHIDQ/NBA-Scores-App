@@ -1,7 +1,5 @@
 package com.example.gametime;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 public class CardLogic extends Game implements GameMonitor {
     private String mHomeTeam;
     private String mAwayTeam;
@@ -11,10 +9,10 @@ public class CardLogic extends Game implements GameMonitor {
     private int mAwayScore;
     private String mLatestPlay;
     private int mQuarter;
+    private String mMatchTime;
     private String mQuarterTime;
-    private RecyclerView.Adapter mAdapter;
 
-    public CardLogic(Game gameData, int homeLogo, int awayLogo, RecyclerView.Adapter adapter) {
+    public CardLogic(Game gameData, int homeLogo, int awayLogo) {
 
         super(
                 gameData.getHomeTeam(),
@@ -30,40 +28,11 @@ public class CardLogic extends Game implements GameMonitor {
         mAwayTeam = gameData.getAwayTeam();
         mHomeLogo = homeLogo;
         mAwayLogo = awayLogo;
-        mAdapter = adapter;
-    }
-
-    int getHomeLogo() {
-        return mHomeLogo;
-    }
-
-    int getAwayLogo() {
-        return mAwayLogo;
-    }
-
-    void UpdateCard(Game updatedData) {
-        mHomeScore = updatedData.getHomeScore();
-        mAwayScore = updatedData.getAwayScore();
-        mLatestPlay = updatedData.getLastPlay();
-        mQuarter = updatedData.getQuarter();
-        mQuarterTime = updatedData.getQuarterTime();
-    }
-
-    boolean isUpdated(Game game) {
-        boolean rc = false;
-        if ((game.getHomeScore() != mHomeScore) |
-                (game.getAwayScore() != mAwayScore) |
-                (game.getQuarter() != mQuarter) |
-                !(game.getQuarterTime().equals(mQuarterTime)) |
-                !(game.getLastPlay().equals(mLatestPlay)))
-            rc = true;
-        return rc;
+        mMatchTime = gameData.getMatchTime();
     }
 
     @Override
-    public void Update(Game updatedData, int id) {
-
-        // TODO: redo this to call notify on only items changed
+    public void UpdateData(Game updatedData, int id) {
         boolean itemChanged = false;
 
         if (mHomeScore != updatedData.getHomeScore()) {
@@ -87,12 +56,61 @@ public class CardLogic extends Game implements GameMonitor {
             itemChanged = true;
         }
 
-        if (itemChanged)
-            mAdapter.notifyItemChanged(id);
+        if (itemChanged) {
+            for (EventStream e : listeners) {
+                e.PostData(id);
+            }
+        }
+    }
+
+    //getters for the adapter
+    String GetMatchTime() {
+        return mMatchTime;
+    }
+
+    int GetHomeLogo() {
+        return mHomeLogo;
+    }
+
+    int GetAwayLogo() {
+        return mAwayLogo;
+    }
+
+    String GetHomeTeam() {
+        return mHomeTeam;
+    }
+
+    String GetAwayTeam() {
+        return mAwayTeam;
+    }
+
+    String GetHomeScore() {
+        return Integer.toString(mHomeScore);
+    }
+
+    String GetAwayScore() {
+        return Integer.toString(mAwayScore);
+    }
+
+    String GetLatestPlay() {
+        return mLatestPlay;
+    }
+
+    int GetQuarter() {
+        return mQuarter;
+    }
+
+    String GetQuarterTime() {
+        return mQuarterTime;
     }
 
     @Override
     public boolean IsUpdated(Game updatedGame) {
         return !(updatedGame.getHomeTeam().equals(mHomeTeam));
+    }
+
+    @Override
+    public void Register(EventStream e) {
+        listeners.add(e);
     }
 }
