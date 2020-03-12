@@ -43,7 +43,8 @@ class ScoreNotification extends Game implements GameMonitor {
         mAwayTeam = gameData.getAwayTeam();
         mManager = manager;
 
-        userPointdiff = pointdiff;
+        // TODO: change after test
+        userPointdiff = 20;
         userTimeRemaining = timeRemaining;
         userQuarter = quarter;
         userTeam = team;
