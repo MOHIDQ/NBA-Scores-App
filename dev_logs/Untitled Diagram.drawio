@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2020-03-14T16:54:44.632Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36" etag="ZdtNZ8GZ6niSXpaXAR-H" version="12.8.5" type="github">
+<mxfile host="app.diagrams.net" modified="2020-03-14T22:33:44.825Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36" etag="taUvinB8I4xwbxLUubW-" version="12.8.5" type="github">
   <diagram id="UFNA505NZZ54J7_U2GtA" name="Page-1">
     <mxGraphModel dx="2272" dy="1855" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
@@ -118,18 +118,18 @@
           </mxGeometry>
         </mxCell>
         <mxCell id="X0afUVVYYzV2fYzfAa5M-24" value="ScoreParser" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
-          <mxGeometry x="220" y="-149.92000000000002" width="320" height="245" as="geometry">
+          <mxGeometry x="220" y="-149.92000000000002" width="320" height="255" as="geometry">
             <mxRectangle x="220" y="160" width="160" height="26" as="alternateBounds" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="X0afUVVYYzV2fYzfAa5M-25" value="- AWAY_NAME: String&#xa;- HOME_NAME: String&#xa;- HOME_SCORE: String&#xa;- AWAY_SCORE: String&#xa;- QUARTER: String&#xa;- LATEST_PLAY: String&#xa;- MATCH_TIME: String&#xa;- QUARTER_TIME: String&#xa;- numberOfGames: Int&#xa;- STRING_URL: String&#xa;&#xa;&#xa;&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="X0afUVVYYzV2fYzfAa5M-24" vertex="1">
-          <mxGeometry y="26" width="320" height="153" as="geometry" />
+        <mxCell id="X0afUVVYYzV2fYzfAa5M-25" value="- AWAY_NAME: String&#xa;- HOME_NAME: String&#xa;- HOME_SCORE: String&#xa;- AWAY_SCORE: String&#xa;- QUARTER: String&#xa;- LATEST_PLAY: String&#xa;- MATCH_TIME: String&#xa;- QUARTER_TIME: String&#xa;- numberOfGames: Int&#xa;- STRING_URL: String&#xa;- single_instance: ScoreParser&#xa;&#xa;&#xa;&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rounded=0;shadow=0;html=0;" parent="X0afUVVYYzV2fYzfAa5M-24" vertex="1">
+          <mxGeometry y="26" width="320" height="163" as="geometry" />
         </mxCell>
         <mxCell id="X0afUVVYYzV2fYzfAa5M-26" value="" style="line;html=1;strokeWidth=1;align=left;verticalAlign=middle;spacingTop=-1;spacingLeft=3;spacingRight=3;rotatable=0;labelPosition=right;points=[];portConstraint=eastwest;" parent="X0afUVVYYzV2fYzfAa5M-24" vertex="1">
-          <mxGeometry y="179" width="320" height="8" as="geometry" />
+          <mxGeometry y="189" width="320" height="8" as="geometry" />
         </mxCell>
-        <mxCell id="X0afUVVYYzV2fYzfAa5M-27" value="+ parseGames(result: String): List&lt;Game&gt;&#xa;+ getDataFromAPI(): Void&#xa;" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="X0afUVVYYzV2fYzfAa5M-24" vertex="1">
-          <mxGeometry y="187" width="320" height="58" as="geometry" />
+        <mxCell id="X0afUVVYYzV2fYzfAa5M-27" value="+ parseGames(result: String): List&lt;Game&gt;&#xa;+ getDataFromAPI(): Void&#xa;+ getInstance(): ScoreParser" style="text;align=left;verticalAlign=top;spacingLeft=4;spacingRight=4;overflow=hidden;rotatable=0;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;" parent="X0afUVVYYzV2fYzfAa5M-24" vertex="1">
+          <mxGeometry y="197" width="320" height="58" as="geometry" />
         </mxCell>
         <mxCell id="X0afUVVYYzV2fYzfAa5M-28" value="DatabaseHelper&#xa;" style="swimlane;fontStyle=1;align=center;verticalAlign=top;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeLast=0;collapsible=1;marginBottom=0;rounded=0;shadow=0;strokeWidth=1;" parent="1" vertex="1">
           <mxGeometry x="581" y="130" width="390" height="320" as="geometry">
