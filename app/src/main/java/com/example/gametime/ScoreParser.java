@@ -30,11 +30,18 @@ public class ScoreParser {
     private static String QUARTER_TIME = "quarterRemainTime";
     private static int numberOfGames;
 
-    public ScoreParser() {
+    private static ScoreParser single_instance = new ScoreParser();
+
+    private ScoreParser() {
         //nothing so far
     }
 
-    public static List<Game> parseGames(String result) {
+    public static ScoreParser getInstance() {
+        return single_instance;
+
+    }
+
+    protected static List<Game> parseGames(String result) {
         try {
              JSONObject jsonObj = new JSONObject(result);
 

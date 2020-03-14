@@ -168,14 +168,15 @@ public class MainActivity extends AppCompatActivity implements EventStream {
     private class APICall extends AsyncTask<Void, Void, String> {
         @Override
         protected String doInBackground(Void... voids) {
-            return ScoreParser.getDataFromAPI();
+            return ScoreParser.getInstance().getDataFromAPI();
+           //return ScoreParser.getDataFromAPI();
         }
 
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             currentGameList.clear();
-            currentGameList = ScoreParser.parseGames(result);
+            currentGameList = ScoreParser.getInstance().parseGames(result);
             updateUI();
         }
 
