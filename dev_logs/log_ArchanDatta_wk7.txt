@@ -1,0 +1,3 @@
+This week I refactored our code to implement the observer design pattern. Building interfaces, and
+ensuring that the communication between the classes still functioned. Also worked on the design pattern
+section for D3 and assisted team members in understanding architectural elements of the code. ~25 hours
