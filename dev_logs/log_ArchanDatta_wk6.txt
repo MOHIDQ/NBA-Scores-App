@@ -1,0 +1,2 @@
+This week I implemented getting values from the database and adding then to the notification criteria.
+Also made refinements to UI aligning some elements and adding new versions of the team logo. ~ 6hours
