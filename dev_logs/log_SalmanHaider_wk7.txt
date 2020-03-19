@@ -1,0 +1,12 @@
+Weekly Dev logs posted by each group member are located in this directory "dev_logs".
+
+
+Salman Haider
+-------------
+
+- Worked on Deliverable #3:
+    - Explained the Architecture of our app, specifically by designing a Layered Diagram.
+    - Explained each layer and component of the Layered Diagram.
+    - Explained general flow of program/where each component is getting information from.
+    - Helped another group member understand the Architecture of our app.
+    - The above took ~ 4hrs to complete

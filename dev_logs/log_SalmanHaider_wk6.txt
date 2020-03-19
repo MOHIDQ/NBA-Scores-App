@@ -1,0 +1,7 @@
+Weekly Dev logs posted by each group member are located in this directory "dev_logs".
+
+
+Salman Haider
+-------------
+
+- Changed positioning of the settings button to suit layout requirements. Took around ~ 1hr to complete
