@@ -1,11 +1,13 @@
 package com.example.gametime;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import android.content.Context;
@@ -14,6 +16,11 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements EventStream {
     private Adapter mAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    Button showAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,56 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         //  else {
         // Log.i("TEST", "NO INTERNET");
         //  }
+
+        showAlert = (Button) findViewById(R.id.alertbutton);
+        showAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder myBuilder = new AlertDialog.Builder(MainActivity.this); //creating the alert dialog
+                View myView = getLayoutInflater().inflate(R.layout.alert_spinner,null);
+                myBuilder.setTitle("Set Preferences");
+                final Spinner mySpinner1 = (Spinner) myView.findViewById(R.id.spinner);
+                ArrayAdapter<String> myadapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.timesList));
+                myadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                mySpinner1.setAdapter(myadapter);
+
+                final Spinner mySpinner2 = (Spinner) myView.findViewById(R.id.spinner2);
+                ArrayAdapter<String> myadapter2 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.teamsList));
+                myadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                mySpinner2.setAdapter(myadapter2);
+
+
+                final Spinner mySpinner3 = (Spinner) myView.findViewById(R.id.spinner3);
+                ArrayAdapter<String> myadapter3 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.quarter));
+                myadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                mySpinner3.setAdapter(myadapter3);
+
+
+                myBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { //dealing with the user selecting "ok"
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        if(!mySpinner1.getSelectedItem().toString().equalsIgnoreCase("Pick a time...") && !mySpinner2.getSelectedItem().toString().equalsIgnoreCase("Pick a team...") && !mySpinner3.getSelectedItem().toString().equalsIgnoreCase("Pick a quarter...")){
+                            Toast.makeText(MainActivity.this,mySpinner1.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,mySpinner2.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,mySpinner3.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                    }
+                });
+
+                myBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() { //dealing with the user selecting "dismiss"
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                });
+
+                myBuilder.setView(myView);
+                AlertDialog myDialog = myBuilder.create(); //creating the Alert Dialog
+                myDialog.show();
+            }
+        });
+
     }
 
     private void dataBaseTester() {
