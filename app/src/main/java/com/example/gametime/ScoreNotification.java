@@ -108,8 +108,15 @@ class ScoreNotification extends Game implements GameMonitor {
         // using default values
         if (teamSelected) {
             if (userTeam.equals(updatedData.getHomeTeam()) || userTeam.equals(updatedData.getAwayTeam())) {
+                // notify if the fav team selected wins
+                if (updatedData.getQuarter() == -1) {
+                    if (userTeam.equals(updatedData.getHomeTeam()) && updatedData.getHomeScore() > updatedData.getAwayScore())
+                        notify = true;
+                    else if (userTeam.equals(updatedData.getAwayTeam()) && updatedData.getAwayScore() > updatedData.getHomeScore())
+                        notify = true;
+                }
                 // specific points in a given quarter
-                if (userQuarter == updatedData.getQuarter()) {
+                else if (userQuarter == updatedData.getQuarter()) {
                     if (userPointdiff < pointDiff || userPointdiff == pointDiff) {
                         notify = true;
                     }
