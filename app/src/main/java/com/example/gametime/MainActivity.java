@@ -32,6 +32,8 @@ public class MainActivity extends AppCompatActivity implements EventStream {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private GameSimulator simulator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        simulator = new GameSimulator();
 
         dataBaseTester();
         buildRecyclerView();
@@ -177,6 +181,11 @@ public class MainActivity extends AppCompatActivity implements EventStream {
             super.onPostExecute(result);
             currentGameList.clear();
             currentGameList = ScoreParser.getInstance().parseGames(result);
+
+            // for simulation when no active games
+            if(currentGameList.isEmpty())
+                currentGameList = simulator.GetData();
+
             updateUI();
         }
 
