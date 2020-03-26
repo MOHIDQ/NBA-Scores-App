@@ -12,6 +12,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COL_2 = "POINTS_DIFF";
     private static final String COL_3 = "FAV_TEAM";
     private static final String COL_4 = "QUARTER";
+    static final String DEFAULT_FAV_TEAM = "N/A";
 
 
     public DatabaseHelper(Context context) {
