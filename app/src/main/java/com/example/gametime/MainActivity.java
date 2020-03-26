@@ -17,6 +17,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Window;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,11 @@ public class MainActivity extends AppCompatActivity implements EventStream {
 
         dataBaseTester();
         buildRecyclerView();
+
+        //prompt when user loads app with no internet connection
+        if(!isNetworkAvailable()) {
+            Toast.makeText(this, "NO INTERNET", Toast.LENGTH_LONG).show();
+        }
 
         //if user has active internet connection get live scores
         // if (isNetworkAvailable()) {
@@ -182,7 +188,10 @@ public class MainActivity extends AppCompatActivity implements EventStream {
             super.onPostExecute(result);
             currentGameList.clear();
             currentGameList = ScoreParser.getInstance().parseGames(result);
-            //currentGameList.add(new Game("","",-1, -1, 0, "", "", ""));
+            //condition if there are no games being played
+            if(currentGameList.size() <= 0) {
+                currentGameList.add(new Game("","",-1, -1, 0, "", "", ""));
+            }
             updateUI();
         }
 
