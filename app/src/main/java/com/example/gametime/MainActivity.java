@@ -1,5 +1,6 @@
 package com.example.gametime;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,8 @@ import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Window;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +46,14 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+
         dataBaseTester();
         buildRecyclerView();
 
         //if user has active internet connection get live scores
         // if (isNetworkAvailable()) {
         callAsynchronousTask();
+
         //   }
 //        condition for when network connection is not available
         //  else {
@@ -119,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
 
     //executes async task to update live scores every timer interval, running on ui thread
     public void callAsynchronousTask() {
+
         final Handler handler = new Handler();
         Timer timer = new Timer();
         TimerTask asynchronousTask = new TimerTask() {
@@ -169,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         @Override
         protected String doInBackground(Void... voids) {
             return ScoreParser.getInstance().getDataFromAPI();
-           //return ScoreParser.getDataFromAPI();
         }
 
         @Override
@@ -177,6 +182,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
             super.onPostExecute(result);
             currentGameList.clear();
             currentGameList = ScoreParser.getInstance().parseGames(result);
+            //currentGameList.add(new Game("","",-1, -1, 0, "", "", ""));
             updateUI();
         }
 

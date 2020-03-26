@@ -38,7 +38,6 @@ public class ScoreParser {
 
     public static ScoreParser getInstance() {
         return single_instance;
-
     }
 
     protected static List<Game> parseGames(String result) {
