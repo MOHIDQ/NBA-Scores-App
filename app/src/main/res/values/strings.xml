@@ -2,7 +2,7 @@
     <string name="app_name">GameTime</string>
     <string name="NotificationTest">Test</string>
     <string-array name="timesList">
-        <item>Pick a time…</item>
+        <item>0:00</item>
         <item>1:00</item>
         <item>2:00</item>
         <item>3:00</item>
@@ -17,11 +17,11 @@
     </string-array>
 
     <string-array name="teamsList">
-        <item>Pick a team…</item>
+        <item>N/A</item>
         <item>Atlanta Hawks</item>
         <item>Boston Celtics</item>
         <item>Brooklyn Nets</item>
-        <item>Charlotte Bobcats</item>
+        <item>Charlotte Hornets</item>
         <item>Chicago Bulls</item>
         <item>Cleveland Cavaliers</item>
         <item>Dallas Mavericks</item>
@@ -30,17 +30,17 @@
         <item>Golden State Warriors</item>
         <item>Houston Rockets</item>
         <item>Indiana Pacers</item>
-        <item>LA Clippers</item>
-        <item>LA Lakers</item>
+        <item>Los Angeles Clippers</item>
+        <item>Los Angeles Lakers</item>
         <item>Memphis Grizzlies</item>
         <item>Miami Heat</item>
         <item>Milwaukee Bucks</item>
         <item>Minnesota Timberwolves</item>
-        <item>New Orleans Hornets</item>
+        <item>New Orleans Pelicans</item>
         <item>New York Knicks</item>
         <item>Oklahoma City Thunder</item>
         <item>Orlando Magic</item>
-        <item>Philadelphia Sixers</item>
+        <item>Philadelphia 76ers</item>
         <item>Phoenix Suns</item>
         <item>Portland Trail Blazers</item>
         <item>Sacramento Kings</item>
@@ -51,7 +51,6 @@
     </string-array>
 
     <string-array name="quarter">
-        <item>Pick a quarter…</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>
@@ -59,7 +58,6 @@
     </string-array>
 
     <string-array name="points">
-        <item>Pick a point difference...</item>
         <item>1</item>
         <item>2</item>
         <item>3</item>

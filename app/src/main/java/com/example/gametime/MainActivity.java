@@ -19,7 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,7 +29,11 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.gametime.DatabaseHelper.DEFAULT_FAV_TEAM;
+
 public class MainActivity extends AppCompatActivity implements EventStream {
+    public static final String OK = "Ok";
+    public static final String DISMISS = "Dismiss";
     public List<Game> currentGameList; //contain all game data
     private NotificationManagerCompat notificationManager;
     public ArrayList<ArrayList<GameMonitor>> monitors = new ArrayList<>();
@@ -53,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         dataBaseTester();
-        buildRecyclerView();
+        BuildRecyclerView();
 
         //if user has active internet connection get live scores
         // if (isNetworkAvailable()) {
@@ -64,62 +70,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         // Log.i("TEST", "NO INTERNET");
         //  }
 
-        showAlert = (Button) findViewById(R.id.alertbutton);
-        showAlert.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog.Builder myBuilder = new AlertDialog.Builder(MainActivity.this); //creating the alert dialog
-                View myView = getLayoutInflater().inflate(R.layout.alert_spinner,null);
-                myBuilder.setTitle("Set Preferences");
-                final Spinner mySpinner1 = (Spinner) myView.findViewById(R.id.spinner);
-                ArrayAdapter<String> myadapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.timesList));
-                myadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-                mySpinner1.setAdapter(myadapter);
-
-                final Spinner mySpinner2 = (Spinner) myView.findViewById(R.id.spinner2);
-                ArrayAdapter<String> myadapter2 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.teamsList));
-                myadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-                mySpinner2.setAdapter(myadapter2);
-
-
-                final Spinner mySpinner3 = (Spinner) myView.findViewById(R.id.spinner3);
-                ArrayAdapter<String> myadapter3 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.quarter));
-                myadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-                mySpinner3.setAdapter(myadapter3);
-
-
-                final Spinner mySpinner4 = (Spinner) myView.findViewById(R.id.spinner4);
-                ArrayAdapter<String> myadapter4 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.points));
-                myadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-                mySpinner4.setAdapter(myadapter4);
-
-
-                myBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { //dealing with the user selecting "ok"
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        if(!mySpinner1.getSelectedItem().toString().equalsIgnoreCase("Pick a time...") && !mySpinner2.getSelectedItem().toString().equalsIgnoreCase("Pick a team...") && !mySpinner3.getSelectedItem().toString().equalsIgnoreCase("Pick a quarter...") && !mySpinner4.getSelectedItem().toString().equalsIgnoreCase("Pick a point difference...")){
-                            Toast.makeText(MainActivity.this,mySpinner1.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
-                            Toast.makeText(MainActivity.this,mySpinner2.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
-                            Toast.makeText(MainActivity.this,mySpinner3.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
-                            Toast.makeText(MainActivity.this,mySpinner4.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }
-                    }
-                });
-
-                myBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() { //dealing with the user selecting "dismiss"
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        dialog.dismiss();
-                    }
-                });
-
-                myBuilder.setView(myView);
-                AlertDialog myDialog = myBuilder.create(); //creating the Alert Dialog
-                myDialog.show();
-            }
-        });
-
+        createSpinner();
     }
 
     private void dataBaseTester() {
@@ -220,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         });
     }
 
-    public void buildRecyclerView() {
+    public void BuildRecyclerView() {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -235,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         @Override
         protected String doInBackground(Void... voids) {
             return ScoreParser.getInstance().getDataFromAPI();
-           //return ScoreParser.getDataFromAPI();
+            //return ScoreParser.getDataFromAPI();
         }
 
         @Override
@@ -246,6 +197,114 @@ public class MainActivity extends AppCompatActivity implements EventStream {
             updateUI();
         }
 
+    }
+
+    private void createSpinner() {
+        showAlert = findViewById(R.id.alertbutton);
+        showAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this); //creating the alert dialog
+                View myView = getLayoutInflater().inflate(R.layout.alert_spinner, null);
+                dialogBuilder.setTitle("Set Preferences");
+
+                final Spinner teamsSpinner = myView.findViewById(R.id.favTeamSpinner);
+                final TextView favTeamText = myView.findViewById(R.id.favTeamText);
+                favTeamText.append("Select Favroite Team");
+                ArrayAdapter<String> teamsAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.teamsList));
+                teamsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                teamsSpinner.setAdapter(teamsAdapter);
+                if (!db.getFavouriteTeam().equals(DEFAULT_FAV_TEAM)) {
+                    int favTeamPos = teamsAdapter.getPosition(db.getFavouriteTeam());
+                    teamsSpinner.setSelection(favTeamPos);
+                }
+
+                final Spinner timeRemainSpinner = myView.findViewById(R.id.timeReSpinner);
+                final TextView timeRemainText = myView.findViewById(R.id.timeRemainText);
+                timeRemainText.append("Select Game Time Remaining");
+                ArrayAdapter<String> timeRemainAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.timesList));
+                timeRemainAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                timeRemainSpinner.setAdapter(timeRemainAdapter);
+                int timeRemainPos = timeRemainAdapter.getPosition(String.valueOf(db.getTimeRemaining()).concat(":00"));
+                timeRemainSpinner.setSelection(timeRemainPos);
+
+                final EditText pointDiffField = myView.findViewById(R.id.pointDiff);
+                final TextView pointDiffText = myView.findViewById(R.id.pointDiffText);
+                pointDiffText.append("Enter Point Difference");
+                pointDiffField.setText(String.valueOf(db.getScoreDifferential()));
+
+
+
+                final Spinner quarterSpinner = myView.findViewById(R.id.quarterSpinner);
+                final TextView quarterText = myView.findViewById(R.id.quarterText);
+                quarterText.append("Select Quarter");
+                ArrayAdapter<String> quarterAdapter = new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.quarter));
+                quarterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                quarterSpinner.setAdapter(quarterAdapter);
+                int quarterPos = quarterAdapter.getPosition(String.valueOf(db.getQuarter()));
+                quarterSpinner.setSelection(quarterPos);
+
+                dialogBuilder.setPositiveButton(OK, new DialogInterface.OnClickListener() { //dealing with the user selecting "ok"
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+
+                        if (teamsSpinner.getSelectedItem() != null) {
+                            String team = teamsSpinner.getSelectedItem().toString();
+
+                            if (!team.equals(db.getFavouriteTeam())) {
+                                Toast.makeText(MainActivity.this, "Favroite Team Selected: \n" + team, Toast.LENGTH_SHORT).show();
+                                db.updateFavTeam(team);
+                            }
+                        }
+
+                        if (timeRemainSpinner.getSelectedItem() != null) {
+                            String time = timeRemainSpinner.getSelectedItem().toString().replace(":00", "");
+
+                            if (!time.equals(String.valueOf(db.getTimeRemaining()))) {
+                                Toast.makeText(MainActivity.this, "Time Difference Selected: " + time + " mins", Toast.LENGTH_SHORT).show();
+                                db.updateTimeRemaining(time);
+                            }
+                        }
+
+                        if (pointDiffField.getText() != null) {
+                            int intPointDiffer = -1;
+                            String strPointDiff = pointDiffField.getText().toString();
+
+                            if (!strPointDiff.equals("") || !strPointDiff.equals(String.valueOf(db.getScoreDifferential()))) {
+                                intPointDiffer = Integer.parseInt(strPointDiff);
+                                if (intPointDiffer > 0 && intPointDiffer < 150 &&
+                                        intPointDiffer != db.getScoreDifferential()) {
+                                    Toast.makeText(MainActivity.this, "Point Difference Selected: " + strPointDiff, Toast.LENGTH_SHORT).show();
+                                    db.updateScoreDifferential(strPointDiff);
+                                }
+                            }
+                        }
+
+                        if (quarterSpinner.getSelectedItem() != null) {
+                            String quarter = quarterSpinner.getSelectedItem().toString();
+
+                            if (!quarter.equals(String.valueOf(db.getQuarter()))) {
+                                Toast.makeText(MainActivity.this, "Quarter Selected: " + quarter, Toast.LENGTH_SHORT).show();
+                                db.updateQuarter(quarter);
+                            }
+                        }
+                        dataBaseTester();
+                        dialog.dismiss();
+                    }
+                });
+
+                dialogBuilder.setNegativeButton(DISMISS, new DialogInterface.OnClickListener() { //dealing with the user selecting "dismiss"
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialogBuilder.setView(myView);
+                AlertDialog myDialog = dialogBuilder.create(); //creating the Alert Dialog
+                myDialog.show();
+            }
+        });
     }
 }
 

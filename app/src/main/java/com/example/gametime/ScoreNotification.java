@@ -9,9 +9,11 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import static com.example.gametime.App.GAMESCORES_CHANNEL_ID;
+import static com.example.gametime.DatabaseHelper.DEFAULT_FAV_TEAM;
 
 class ScoreNotification extends Game implements GameMonitor {
 
+    public static final String SCORES_GROUP = "scores_group";
     private NotificationCompat.Builder mNotification;
     private Notification mSummaryNotification;
     private NotificationManagerCompat mManager;
@@ -56,7 +58,7 @@ class ScoreNotification extends Game implements GameMonitor {
         mNotification = new NotificationCompat.Builder(mainActivity, GAMESCORES_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notification_logo)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setGroup("scores_group")
+                .setGroup(SCORES_GROUP)
                 .setColor(Color.BLUE)
                 .setContentIntent(pendingIntent);
 
@@ -65,7 +67,7 @@ class ScoreNotification extends Game implements GameMonitor {
                 .setStyle(new NotificationCompat.InboxStyle()
                         .setSummaryText("Summary"))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setGroup("scores_group")
+                .setGroup(SCORES_GROUP)
                 .setGroupAlertBehavior(NotificationCompat.GROUP_ALERT_CHILDREN)
                 .setGroupSummary(true)
                 .build();
@@ -102,7 +104,7 @@ class ScoreNotification extends Game implements GameMonitor {
 
         int pointDiff = Math.abs(updatedData.getHomeScore() - updatedData.getAwayScore());
 
-        if (userTeam.equals("N/A"))
+        if (userTeam.equals(DEFAULT_FAV_TEAM))
             teamSelected = false;
 
         // using default values
