@@ -1,5 +1,6 @@
 package com.example.gametime;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,10 +61,29 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.mAwayLogo.setImageResource(currentItem.GetAwayLogo());
         holder.mHomeTeam.setText(currentItem.GetHomeTeam());
         holder.mAwayTeam.setText(currentItem.GetAwayTeam());
-        holder.mHomeScore.setText(currentItem.GetHomeScore());
-        holder.mAwayScore.setText(currentItem.GetAwayScore());
+        if(currentItem.GetHomeScore() == "-1") {
+            holder.mHomeScore.setText("");
+        }
+        else {
+            holder.mHomeScore.setText(currentItem.GetHomeScore());
+        }
+
+        if(currentItem.GetAwayScore() == "-1") {
+            holder.mAwayScore.setText("");
+        }
+        else{
+            holder.mAwayScore.setText(currentItem.GetAwayScore());
+        }
+        if(currentItem.GetAwayScore() == "-1" && currentItem.GetHomeScore() == "-1") {
+            holder.mQuarter.setText("NO GAMES");
+            holder.mQuarter.setTextColor(Color.BLACK);
+
+        }
+        else {
+            holder.mQuarter.setText(FormatQuarter(currentItem.GetQuarter()));
+        }
         holder.mLatestPlay.setText(currentItem.GetLatestPlay());
-        holder.mQuarter.setText(FormatQuarter(currentItem.GetQuarter()));
+
         holder.mQuarterTime.setText(currentItem.GetQuarterTime());
         holder.mMatchTime.setText(currentItem.GetMatchTime());
     }
