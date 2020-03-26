@@ -88,13 +88,20 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 mySpinner3.setAdapter(myadapter3);
 
 
+                final Spinner mySpinner4 = (Spinner) myView.findViewById(R.id.spinner4);
+                ArrayAdapter<String> myadapter4 = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.points));
+                myadapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+                mySpinner4.setAdapter(myadapter4);
+
+
                 myBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() { //dealing with the user selecting "ok"
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
-                        if(!mySpinner1.getSelectedItem().toString().equalsIgnoreCase("Pick a time...") && !mySpinner2.getSelectedItem().toString().equalsIgnoreCase("Pick a team...") && !mySpinner3.getSelectedItem().toString().equalsIgnoreCase("Pick a quarter...")){
+                        if(!mySpinner1.getSelectedItem().toString().equalsIgnoreCase("Pick a time...") && !mySpinner2.getSelectedItem().toString().equalsIgnoreCase("Pick a team...") && !mySpinner3.getSelectedItem().toString().equalsIgnoreCase("Pick a quarter...") && !mySpinner4.getSelectedItem().toString().equalsIgnoreCase("Pick a point difference...")){
                             Toast.makeText(MainActivity.this,mySpinner1.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
                             Toast.makeText(MainActivity.this,mySpinner2.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
                             Toast.makeText(MainActivity.this,mySpinner3.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this,mySpinner4.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
                     }
