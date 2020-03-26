@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         BuildRecyclerView();
 
         //prompt when user loads app with no internet connection
-        if(!isNetworkAvailable()) {
+        if (!isNetworkAvailable()) {
             Toast.makeText(this, "NO INTERNET", Toast.LENGTH_LONG).show();
         }
 
@@ -204,8 +204,8 @@ public class MainActivity extends AppCompatActivity implements EventStream {
             currentGameList.clear();
             currentGameList = ScoreParser.getInstance().parseGames(result);
             //condition if there are no games being played
-            if(currentGameList.size() <= 0) {
-                currentGameList.add(new Game("","",-1, -1, 0, "", "", ""));
+            if (currentGameList.size() <= 0) {
+                currentGameList.add(new Game("", "", -1, -1, 0, "", "", ""));
             }
             updateUI();
         }
@@ -245,7 +245,6 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 final TextView pointDiffText = myView.findViewById(R.id.pointDiffText);
                 pointDiffText.append("Enter Point Difference");
                 pointDiffField.setText(String.valueOf(db.getScoreDifferential()));
-
 
 
                 final Spinner quarterSpinner = myView.findViewById(R.id.quarterSpinner);

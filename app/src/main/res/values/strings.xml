@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">GameTime</string>
     <string name="NotificationTest">Test</string>
+    <string name="settings">Settings</string>
     <string-array name="timesList">
         <item>0:00</item>
         <item>1:00</item>
