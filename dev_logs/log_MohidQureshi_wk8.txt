@@ -1,0 +1,3 @@
+This week I worked on reviewing our applications design and architectural design patters in order to prepare for the 
+Oral exam for Deliverable 3. I also assisted my team member on connecting to our SQLite database when updating the user 
+preferences for notifications.     

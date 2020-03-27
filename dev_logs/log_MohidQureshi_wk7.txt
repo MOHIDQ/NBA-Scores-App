@@ -1,0 +1,3 @@
+This week I worked on completing Deliverable 3, where I worked on the Design section. 
+More specifically worked on creating the UML and sequence Diagram with Archan aswell as the 
+polling and singleton design pattern section. I also altered the ScoreParser class to make it follow a singleton design pattern. - Took approx 6-7 hours
