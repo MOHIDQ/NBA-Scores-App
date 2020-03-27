@@ -211,9 +211,9 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 currentGameList = simulator.GetData();
 
             //condition if there are no games being played
-            if (currentGameList.size() <= 0) {
-                currentGameList.add(new Game("", "", -1, -1, 0, "", "", ""));
-            }
+//            if (currentGameList.size() <= 0) {
+//                currentGameList.add(new Game("", "", -1, -1, 0, "", "", ""));
+//            }
             updateUI();
         }
 
