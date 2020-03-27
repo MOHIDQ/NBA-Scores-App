@@ -29,7 +29,6 @@
         android:id="@+id/alertbutton"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:backgroundTint="@android:color/darker_gray"
         android:text="@string/settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
