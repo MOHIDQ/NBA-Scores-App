@@ -27,11 +27,11 @@ public class Game {
 
     private String latestPlay;
 
-    private int matchTime; //time game started
+    private String matchTime; //time game started
 
     private String quarterTime;
 
-    public Game(String ht, String at, int hs, int as, int q, String lp, int mt, String qt) {
+    public Game(String ht, String at, int hs, int as, int q, String lp, String mt, String qt) {
         homeTeam = ht;
         awayTeam = at;
         homeScore = hs;
@@ -66,10 +66,9 @@ public class Game {
         return latestPlay;
     }
 
-    public Date getMatchTime() {
-        return new java.util.Date((long)matchTime*1000);
+    public String getMatchTime() {
+        return matchTime;
     }
-
     public String getQuarterTime() {
         return quarterTime;
     }
