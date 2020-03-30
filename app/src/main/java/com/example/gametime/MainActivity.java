@@ -82,6 +82,23 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         //  }
 
         createSpinner();
+
+        Button button = findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                simulator.UpdateData("Atlanta Hawks",
+                        "New York Knicks",
+                        3, 2, 1,
+                        "TimeOut", "00:05");
+            }
+        });
+
+        Button button2 = findViewById(R.id.button2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                simulator.UpdateData();
+            }
+        });
     }
 
     private void dataBaseTester() {
@@ -108,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 currNotificationList.clear();
                 monitors.clear();
             }
-            if (cardList.size() != currentGameList.size() || currNotificationList.size() != currentGameList.size()) {
+            if (cardList.size() < currentGameList.size() || currNotificationList.size() < currentGameList.size()) {
 
                 // get the image from the folder and pass it into the card
                 String homeName = currentGameList.get(i).getHomeTeam().replaceAll(" ", "_").toLowerCase();
@@ -207,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
             currentGameList = ScoreParser.getInstance().parseGames(result);
 
             // for simulation when no active games
-            if(currentGameList.isEmpty())
+            if (simulator.GetData().size() != currentGameList.size())
                 currentGameList = simulator.GetData();
 
             //condition if there are no games being played

@@ -13,7 +13,13 @@ import static com.example.gametime.DatabaseHelper.DEFAULT_FAV_TEAM;
 
 class ScoreNotification extends Game implements GameMonitor {
 
-    public static final String SCORES_GROUP = "scores_group";
+    private static final String SCORES_GROUP = "scores_group";
+    private static final int GAME_NOT_STARTED = 0;
+    private static final int GAME_FINISHED = -1;
+    private static final int GAME_Q4 = 4;
+    private static final int MANAGER_ID = 10;
+    private static final int NOTIFICATION_INCREMENTAL = 20;
+
     private NotificationCompat.Builder mNotification;
     private Notification mSummaryNotification;
     private NotificationManagerCompat mManager;
@@ -45,8 +51,7 @@ class ScoreNotification extends Game implements GameMonitor {
         mAwayTeam = gameData.getAwayTeam();
         mManager = manager;
 
-        // TODO: change after test
-        userPointdiff = 20;
+        userPointdiff = pointdiff;
         userTimeRemaining = timeRemaining;
         userQuarter = quarter;
         userTeam = team;
@@ -78,8 +83,8 @@ class ScoreNotification extends Game implements GameMonitor {
         mNotification.setContentTitle(mHomeTeam + " " + mHomeScore + " - " + mAwayScore + " " + mAwayTeam);
         mNotification.setContentText(mLatestPlay);
 
-        mManager.notify(id + 20, mNotification.build());
-        mManager.notify(10, mSummaryNotification);
+        mManager.notify(id + NOTIFICATION_INCREMENTAL, mNotification.build());
+        mManager.notify(MANAGER_ID, mSummaryNotification);
     }
 
     @Override
@@ -111,28 +116,32 @@ class ScoreNotification extends Game implements GameMonitor {
         if (teamSelected) {
             if (userTeam.equals(updatedData.getHomeTeam()) || userTeam.equals(updatedData.getAwayTeam())) {
                 // notify if the fav team selected wins
-                if (updatedData.getQuarter() == -1) {
+                if (updatedData.getQuarter() == GAME_NOT_STARTED)
+                    notify = true;
+                else if (updatedData.getQuarter() == GAME_FINISHED) {
                     if (userTeam.equals(updatedData.getHomeTeam()) && updatedData.getHomeScore() > updatedData.getAwayScore())
                         notify = true;
                     else if (userTeam.equals(updatedData.getAwayTeam()) && updatedData.getAwayScore() > updatedData.getHomeScore())
                         notify = true;
                 }
                 // specific points in a given quarter
-                else if (userQuarter == updatedData.getQuarter()) {
-                    if (userPointdiff < pointDiff || userPointdiff == pointDiff) {
+                else if (updatedData.getQuarter() == userQuarter) {
+                    if (userPointdiff > pointDiff || userPointdiff == pointDiff) {
                         notify = true;
                     }
                 }
             }
-        }
-
-        if (userQuarter == updatedData.getQuarter()) {
+        } else if (userQuarter == updatedData.getQuarter()) {
             if (userPointdiff > pointDiff || userPointdiff == pointDiff) {
                 notify = true;
             }
         }
 
-        //TODO: Add in time criteria
+        if (updatedData.getQuarter() == GAME_Q4) {
+            int timeDiff = 12 - Integer.parseInt(updatedData.getQuarterTime().replace(":00", ""));
+            if (timeDiff < userTimeRemaining)
+                notify = true;
+        }
 
         if (dataChanged && notify)
             NotifyUser(id);
