@@ -72,7 +72,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         while(result.moveToNext()) {
             buffer.append(result.getString(0));
         }
-        // TODO: change ":00" to something more logical
         return Integer.parseInt(buffer.toString().replace(":00", ""));
     }
 

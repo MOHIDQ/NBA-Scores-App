@@ -1,0 +1,4 @@
+This week I worked on starting to build a simulator for our app for the live demo, allowing us to feed
+in some data to show that our app is functioning since NBA games are suspended. Also worked on
+refactoring a team members code on the setting page and logic. Refactored some of the UI and code clean
+up. Lastly as a group we created our video for the pitch of our app and worked on D4 document. ~20hours.

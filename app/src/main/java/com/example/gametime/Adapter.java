@@ -61,20 +61,20 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
         holder.mAwayLogo.setImageResource(currentItem.GetAwayLogo());
         holder.mHomeTeam.setText(currentItem.GetHomeTeam());
         holder.mAwayTeam.setText(currentItem.GetAwayTeam());
-        if(currentItem.GetHomeScore() == "-1") {
+        if(currentItem.GetHomeScore().equals("-1")) {
             holder.mHomeScore.setText("");
         }
         else {
             holder.mHomeScore.setText(currentItem.GetHomeScore());
         }
 
-        if(currentItem.GetAwayScore() == "-1") {
+        if(currentItem.GetAwayScore().equals("-1")) {
             holder.mAwayScore.setText("");
         }
         else{
             holder.mAwayScore.setText(currentItem.GetAwayScore());
         }
-        if(currentItem.GetAwayScore() == "-1" && currentItem.GetHomeScore() == "-1") {
+        if(currentItem.GetAwayScore().equals("-1") && currentItem.GetHomeScore().equals("-1")) {
             holder.mQuarter.setText("NO GAMES");
             holder.mQuarter.setTextColor(Color.BLACK);
 
