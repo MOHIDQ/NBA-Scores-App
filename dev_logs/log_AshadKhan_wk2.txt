@@ -1,1 +1,7 @@
--tried implementing RecycleView
+-I researched different ways of how to best portray the user interface design of game cards that we
+wanted to present on our home screen, similar to the game cards the are shown when you are following
+scores on google. I found two support packages that I felt would be ideal for our idea; recyclerView
+and cardView.
+
+-I made rough designs for the game cards that we could use for our user interface and made alterations
+after the feedback from the team

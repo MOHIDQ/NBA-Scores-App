@@ -1,0 +1,2 @@
+-I resolved the issues that had previously occured with recyclerView and implemented the classes for
+it successfully this time around. I further worked on the design of the game card layout.

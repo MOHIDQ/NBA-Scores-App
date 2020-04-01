@@ -32,6 +32,7 @@ class ScoreNotification extends Game implements GameMonitor {
 
     private DatabaseHelper mdb;
 
+
     ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, Game gameData, DatabaseHelper db) {
         super(
                 gameData.getHomeTeam(),
