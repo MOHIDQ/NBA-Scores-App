@@ -86,17 +86,14 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                simulator.UpdateData("Atlanta Hawks",
-                        "New York Knicks",
-                        3, 2, 1,
-                        "TimeOut", "00:05");
+                simulator.UpdateData();
             }
         });
 
         Button button2 = findViewById(R.id.button2);
         button2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                simulator.UpdateData();
+                simulator.UpdateData1();
             }
         });
 
@@ -189,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 });
             }
         };
-        timer.schedule(asynchronousTask, 0, 5000); //execute in every 5 seconds
+        timer.schedule(asynchronousTask, 0, 500); //execute in every 5 seconds
     }
 
     @Override
