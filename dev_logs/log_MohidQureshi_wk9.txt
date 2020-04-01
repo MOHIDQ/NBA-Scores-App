@@ -1,0 +1,3 @@
+Added prompt for when no games are being played in a form of a game card. I also added a prompt for when the user has no 
+internet connection in the form of a toast message. I also worked on Deliverable 4 with my group members where we worked on
+a video showcasing our final app and pitch. Took approximately 6 hours to complete. 
