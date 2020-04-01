@@ -30,13 +30,9 @@ class ScoreNotification extends Game implements GameMonitor {
     private int mAwayScore;
     private String mLatestPlay;
 
-    private int userPointdiff;
-    private int userTimeRemaining;
-    private int userQuarter;
-    private String userTeam;
+    private DatabaseHelper mdb;
 
-
-    ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, Game gameData, int pointdiff, int timeRemaining, int quarter, String team) {
+    ScoreNotification(MainActivity mainActivity, NotificationManagerCompat manager, Game gameData, DatabaseHelper db) {
         super(
                 gameData.getHomeTeam(),
                 gameData.getAwayTeam(),
@@ -51,10 +47,7 @@ class ScoreNotification extends Game implements GameMonitor {
         mAwayTeam = gameData.getAwayTeam();
         mManager = manager;
 
-        userPointdiff = pointdiff;
-        userTimeRemaining = timeRemaining;
-        userQuarter = quarter;
-        userTeam = team;
+        mdb = db;
 
         Intent activityIntent = new Intent(mainActivity, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(mainActivity,
@@ -89,6 +82,11 @@ class ScoreNotification extends Game implements GameMonitor {
 
     @Override
     public void UpdateData(Game updatedData, int id) {
+
+        int userPointdiff = mdb.getScoreDifferential();
+        int userTimeRemaining = mdb.getTimeRemaining();
+        int userQuarter = mdb.getQuarter();
+        String userTeam = mdb.getFavouriteTeam();
 
         boolean dataChanged = false;
         boolean notify = false;

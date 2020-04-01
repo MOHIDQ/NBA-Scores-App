@@ -99,6 +99,13 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 simulator.UpdateData();
             }
         });
+
+        Button button3 = findViewById(R.id.button3);
+        button3.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                simulator.UpdateData2();
+            }
+        });
     }
 
     private void dataBaseTester() {
@@ -119,7 +126,6 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         for (int i = 0; i < currentGameList.size(); i++) {
             Log.i("TEST", currentGameList.get(i).getAwayTeam() + " | " + currentGameList.get(i).getAwayScore());
 
-            // TODO: Test overnight
             if (!cardList.isEmpty() && (cardList.get(0).IsUpdated(currentGameList.get(0)))) {
                 cardList.clear();
                 currNotificationList.clear();
@@ -136,11 +142,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 cardList.add(new CardLogic(currentGameList.get(i), homeLogo, awayLogo));
                 monitors.add(cardList);
 
-                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i),
-                        db.getScoreDifferential(),
-                        db.getTimeRemaining(),
-                        db.getQuarter(),
-                        db.getFavouriteTeam());
+                ScoreNotification not = new ScoreNotification(this, notificationManager, currentGameList.get(i), db);
 
                 // Uncomment if need to be notified of all current games
                 //not.Notify(i);

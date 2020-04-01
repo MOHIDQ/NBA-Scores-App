@@ -26,18 +26,18 @@ public class GameSimulator {
                 "New York Knicks",
                 0, 0, 0,
                 "", "Wed Mar 11 19:30:00 EDT 2020",
-                "0:00");
+                "");
         Game g2 = new Game("Dallas Mavericks",
                 "Denver Nuggets",
                 0, 0, 0,
                 "", "Wed Mar 11 20:00:00 EDT 2020",
-                "0:00");
+                "");
 
         Game g3 = new Game("Sacramento Kings",
                 "New Orleans Pelicans",
                 0, 0, 0,
                 "", "Wed Mar 11 22:30:00 EDT 2020",
-                "0:00");
+                "");
         simulatedGames.add(g1);
         simulatedGames.add(g2);
         simulatedGames.add(g3);
@@ -56,8 +56,7 @@ public class GameSimulator {
 
     public void UpdateData(String homeTeam, String awayTeam, int homeScore, int awayScore, int q, String lp, String qt) {
         if (!copy.isEmpty()) {
-            copy.remove(0);
-            copy.remove(1);
+            copy.clear();
         }
         g1 = new Game("Atlanta Hawks",
                 "New York Knicks",
@@ -94,6 +93,25 @@ public class GameSimulator {
                 "01:20");
         copy.add(1, g2);
 
+
+        dataChanged = true;
+    }
+
+    public void UpdateData2() {
+        g1 = new Game("Atlanta Hawks",
+                "New York Knicks",
+                10, 5, 1,
+                "TimeOut", "Wed Mar 11 19:30:00 EDT 2020",
+                "00:50");
+        copy.add(0,g1);
+
+//        copy.remove(1);
+        g2 = new Game("Dallas Mavericks",
+                "Denver Nuggets",
+                30, 20, 2,
+                "", "Wed Mar 11 20:00:00 EDT 2020",
+                "03:20");
+        copy.add(1, g2);
 
         dataChanged = true;
     }
