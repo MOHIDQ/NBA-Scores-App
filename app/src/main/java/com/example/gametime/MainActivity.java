@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
 
     private void dataBaseTester() {
         db = new DatabaseHelper(this);
-        Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam() + "      " + db.getQuarter());
+        //Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam() + "      " + db.getQuarter());
     }
 
     //if network connection is available run async task for getting scores data
@@ -206,7 +206,11 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             currentGameList.clear();
+
             currentGameList = ScoreParser.getInstance().parseGames(result);
+            currentGameList.add(new Game("Toronto Raptors", "Brooklyn Nets", 98, 109, 4, "Kyle Lowry Scores FG", "7:00PM EST", "1:00"));
+            currentGameList.add(new Game("Utah Jazz", "Miami Heat", 45, 52, 2, "Jimmy Butler Scores FT", "7:00PM EST", "6:00"));
+            currentGameList.add(new Game("Orlando Magic", "Memphis Grizzlies", 3, 0, 1, "Markelle Fultz Scores 3PT", "9:00PM EST", "12:00"));
             //condition if there are no games being played
             if (currentGameList.size() <= 0) {
                 currentGameList.add(new Game("", "", -1, -1, 0, "", "", ""));

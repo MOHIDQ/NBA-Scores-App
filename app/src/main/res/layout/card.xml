@@ -10,7 +10,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/gradient">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,6 +23,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
+                android:background="@color/appScheme"
+                android:textColor="#FFFFFF"
                 android:textStyle="bold|italic" />
         </LinearLayout>
 
@@ -39,7 +42,8 @@
                 android:ems="10"
                 android:gravity="center"
                 android:textSize="15dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#000000"/>
 
             <TextView
                 android:id="@+id/awayTeam"
@@ -50,7 +54,8 @@
                 android:ems="10"
                 android:gravity="center"
                 android:textSize="15dp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#000000"/>
         </LinearLayout>
 
         <LinearLayout
@@ -83,7 +88,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="15dp"
-                    android:textStyle="bold|italic" />
+                    android:textStyle="bold|italic"
+                    android:textColor="#000000"/>
 
                 <TextView
                     android:id="@+id/quarterTime"
@@ -92,7 +98,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textSize="15dp"
-                    android:textStyle="bold|italic" />
+                    android:textStyle="bold|italic"
+                    android:textColor="#000000"/>
             </LinearLayout>
 
 
@@ -124,7 +131,8 @@
                 android:ems="10"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#000000"/>
 
             <Space
                 android:layout_width="250dp"
@@ -139,7 +147,8 @@
                 android:ems="10"
                 android:gravity="center"
                 android:textSize="20sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:textColor="#000000"/>
 
             <Space
                 android:layout_width="145dp"
@@ -158,7 +167,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center|left"
                 android:gravity="center"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold|italic"
+                android:textColor="#000000"/>
         </LinearLayout>
 
     </LinearLayout>
