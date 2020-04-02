@@ -84,27 +84,6 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         //  }
 
         createSpinner();
-
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                simulator.UpdateData();
-            }
-        });
-
-        Button button2 = findViewById(R.id.button2);
-        button2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                simulator.UpdateData1();
-            }
-        });
-
-        Button button3 = findViewById(R.id.button3);
-        button3.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                simulator.UpdateData2();
-            }
-        });
     }
 
     private void dataBaseTester() {
