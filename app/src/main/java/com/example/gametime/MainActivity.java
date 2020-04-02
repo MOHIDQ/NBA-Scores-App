@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements EventStream {
     private GameSimulator simulator;
     Button showAlert;
 
+    private boolean isInternet = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
 
         //prompt when user loads app with no internet connection
         if (!isNetworkAvailable()) {
-            Toast.makeText(this, "NO INTERNET", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Internet Active", Toast.LENGTH_LONG).show();
         }
 
         //if user has active internet connection get live scores
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
 
     private void dataBaseTester() {
         db = new DatabaseHelper(this);
-        Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam() + "      " + db.getQuarter());
+        //Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam() + "      " + db.getQuarter());
     }
 
     //if network connection is available run async task for getting scores data
@@ -174,10 +176,17 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                         try {
                             //only fetch scores when network connection is available
                             if (isNetworkAvailable()) {
+                                isInternet = false;
                                 currentGameList.clear();
                                 APICall apiScoreGetter = new APICall();
                                 // PerformBackgroundTask this class is the class that extends AsynchTask
                                 apiScoreGetter.execute();
+                            }
+                            else {
+                                if(!isInternet) {
+                                    Toast.makeText(MainActivity.this, "No Internet Active", Toast.LENGTH_LONG).show();
+                                }
+                                isInternet = true;
                             }
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
@@ -220,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             currentGameList.clear();
+
             currentGameList = ScoreParser.getInstance().parseGames(result);
 
             // for simulation when no active games
