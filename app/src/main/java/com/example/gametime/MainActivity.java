@@ -181,9 +181,8 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                                 APICall apiScoreGetter = new APICall();
                                 // PerformBackgroundTask this class is the class that extends AsynchTask
                                 apiScoreGetter.execute();
-                            }
-                            else {
-                                if(!isInternet) {
+                            } else {
+                                if (!isInternet) {
                                     Toast.makeText(MainActivity.this, "No Internet Active", Toast.LENGTH_LONG).show();
                                 }
                                 isInternet = true;
@@ -212,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new Adapter(cardList);
+        mAdapter = new Adapter(cardList, db);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -299,6 +298,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                             if (!team.equals(db.getFavouriteTeam())) {
                                 Toast.makeText(MainActivity.this, "Favroite Team Selected: \n" + team, Toast.LENGTH_SHORT).show();
                                 db.updateFavTeam(team);
+                                mAdapter.notifyDataSetChanged();
                             }
                         }
 
