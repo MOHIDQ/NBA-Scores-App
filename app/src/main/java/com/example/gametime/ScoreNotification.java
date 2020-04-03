@@ -8,6 +8,8 @@ import android.graphics.Color;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import java.time.LocalTime;
+
 import static com.example.gametime.App.GAMESCORES_CHANNEL_ID;
 import static com.example.gametime.DatabaseHelper.DEFAULT_FAV_TEAM;
 
@@ -19,6 +21,8 @@ class ScoreNotification extends Game implements GameMonitor {
     private static final int GAME_Q4 = 4;
     private static final int MANAGER_ID = 10;
     private static final int NOTIFICATION_INCREMENTAL = 20;
+    public static final int QUARTER_TIME = 720;
+    public static final int ONE_MIN_SECONDS = 60;
 
     private NotificationCompat.Builder mNotification;
     private Notification mSummaryNotification;
@@ -85,7 +89,7 @@ class ScoreNotification extends Game implements GameMonitor {
     public void UpdateData(Game updatedData, int id) {
 
         int userPointdiff = mdb.getScoreDifferential();
-        int userTimeRemaining = mdb.getTimeRemaining();
+        int userTimeRemaining = mdb.getTimeRemaining() * ONE_MIN_SECONDS;
         int userQuarter = mdb.getQuarter();
         String userTeam = mdb.getFavouriteTeam();
 
@@ -137,7 +141,9 @@ class ScoreNotification extends Game implements GameMonitor {
         }
 
         if (updatedData.getQuarter() == GAME_Q4) {
-            int timeDiff = 12 - Integer.parseInt(updatedData.getQuarterTime().replace(":00", ""));
+            LocalTime time = LocalTime.parse(updatedData.getQuarterTime());
+            int gameTime = (time.getHour() * ONE_MIN_SECONDS) + time.getMinute();
+            int timeDiff = QUARTER_TIME - gameTime;
             if (timeDiff < userTimeRemaining)
                 notify = true;
         }
