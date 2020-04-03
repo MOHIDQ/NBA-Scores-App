@@ -9,4 +9,4 @@ Salman Haider
     - Explained each layer and component of the Layered Diagram.
     - Explained general flow of program/where each component is getting information from.
     - Helped another group member understand the Architecture of our app.
-    - The above took ~ 4hrs to complete
+    - took ~4hrs to complete

@@ -6,6 +6,7 @@ Salman Haider
 Completed the implementation of a timer for the Splash Screen of our app. Which consisted of the modification of the following class:
 
 - MainActivity.java
+- took ~3hrs to complete
 
 Currently working on making the splash screen exit out of its timer along with making the logo for our app dynamically adjustable for multiple
 android devices.

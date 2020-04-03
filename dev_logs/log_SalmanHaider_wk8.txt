@@ -4,4 +4,4 @@ Weekly Dev logs posted by each group member are located in this directory "dev_l
 Salman Haider
 -------------
 
-- Changed positioning of the settings button to suit layout requirements.  took ~1hr to complete
+- Prepared for oral component of D3 by creating a presentation and practicing for it. took ~3hrs to complete

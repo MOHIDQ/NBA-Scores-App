@@ -9,5 +9,5 @@ Salman Haider
   - Time left in game that the user wants to be notified at.
   - Point difference in the game that the user wants to notified at.
   - Favorite team.
-  - The above took ~ 5hrs to complete
-- Currently working on repositioning the settings button to suit layout requirements. Required time to complete ~1hr
+  - took ~5hrs to complete
+- Currently working on repositioning the settings button to suit layout requirements.

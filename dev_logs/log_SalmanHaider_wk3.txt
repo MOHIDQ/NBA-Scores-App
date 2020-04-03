@@ -5,6 +5,6 @@ Weekly Dev logs posted by each group member are located in this directory "dev_l
 Salman Haider
 -------------
 
-- Completed the implementation of the Splash Screen for our app and fully tested it. Implementation + testing ~ 4hrs.
+- Completed the implementation of the Splash Screen for our app and fully tested it. Implementation + testing took ~4hrs to complete.
 - Resized logo to fit emulator screens.
 - Will now begin working on the settings page of our app.
