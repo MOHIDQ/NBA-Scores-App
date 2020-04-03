@@ -211,13 +211,13 @@ public class MainActivity extends AppCompatActivity implements EventStream {
             currentGameList = ScoreParser.getInstance().parseGames(result);
 
             // for simulation when no active games
-            if (simulator.GetData().size() != currentGameList.size())
-                currentGameList = simulator.GetData();
+//            if (simulator.GetData().size() != currentGameList.size())
+//                currentGameList = simulator.GetData();
 
             //condition if there are no games being played
-//            if (currentGameList.size() <= 0) {
-//                currentGameList.add(new Game("", "", -1, -1, 0, "", "", ""));
-//            }
+            if (currentGameList.size() <= 0) {
+                currentGameList.add(new Game("", "", -1, -1, 0, "", "", ""));
+            }
             updateUI();
         }
 
