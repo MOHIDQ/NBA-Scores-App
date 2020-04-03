@@ -47,7 +47,10 @@ public class MainActivity extends AppCompatActivity implements EventStream {
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    private GameSimulator simulator;
     Button showAlert;
+
+    private boolean isInternet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,13 +63,14 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        simulator = new GameSimulator();
 
         dataBaseTester();
         BuildRecyclerView();
 
         //prompt when user loads app with no internet connection
         if (!isNetworkAvailable()) {
-            Toast.makeText(this, "NO INTERNET", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "No Internet Active", Toast.LENGTH_LONG).show();
         }
 
         //if user has active internet connection get live scores
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
 
     private void dataBaseTester() {
         db = new DatabaseHelper(this);
-        Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam() + "      " + db.getQuarter());
+        //Log.i("CURSOR", db.getTimeRemaining() + "     " + db.getScoreDifferential() + "         " + db.getFavouriteTeam() + "      " + db.getQuarter());
     }
 
     //if network connection is available run async task for getting scores data
@@ -105,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 currNotificationList.clear();
                 monitors.clear();
             }
-            if (cardList.size() != currentGameList.size() || currNotificationList.size() != currentGameList.size()) {
+            if (cardList.size() < currentGameList.size() || currNotificationList.size() < currentGameList.size()) {
 
                 // get the image from the folder and pass it into the card
                 String homeName = currentGameList.get(i).getHomeTeam().replaceAll(" ", "_").toLowerCase();
@@ -151,10 +155,16 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                         try {
                             //only fetch scores when network connection is available
                             if (isNetworkAvailable()) {
+                                isInternet = false;
                                 currentGameList.clear();
                                 APICall apiScoreGetter = new APICall();
                                 // PerformBackgroundTask this class is the class that extends AsynchTask
                                 apiScoreGetter.execute();
+                            } else {
+                                if (!isInternet) {
+                                    Toast.makeText(MainActivity.this, "No Internet Active", Toast.LENGTH_LONG).show();
+                                }
+                                isInternet = true;
                             }
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
@@ -163,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                 });
             }
         };
-        timer.schedule(asynchronousTask, 0, 5000); //execute in every 5 seconds
+        timer.schedule(asynchronousTask, 0, 500); //execute in every 5 seconds
     }
 
     @Override
@@ -180,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         mRecyclerView = findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new Adapter(cardList);
+        mAdapter = new Adapter(cardList, db);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -197,7 +207,13 @@ public class MainActivity extends AppCompatActivity implements EventStream {
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
             currentGameList.clear();
+
             currentGameList = ScoreParser.getInstance().parseGames(result);
+
+            // for simulation when no active games
+//            if (simulator.GetData().size() != currentGameList.size())
+//                currentGameList = simulator.GetData();
+
             //condition if there are no games being played
             if (currentGameList.size() <= 0) {
                 currentGameList.add(new Game("", "", -1, -1, 0, "", "", ""));
@@ -261,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements EventStream {
                             if (!team.equals(db.getFavouriteTeam())) {
                                 Toast.makeText(MainActivity.this, "Favroite Team Selected: \n" + team, Toast.LENGTH_SHORT).show();
                                 db.updateFavTeam(team);
+                                mAdapter.notifyDataSetChanged();
                             }
                         }
 
