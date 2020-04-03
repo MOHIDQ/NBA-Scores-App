@@ -1,0 +1,2 @@
+This week I assisted team members in understanding some of the architectural elements in our program.
+Also prepared for the oral component of D3 by preparing a presentation and practicing it. ~4 hours

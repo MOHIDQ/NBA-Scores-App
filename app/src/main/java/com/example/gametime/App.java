@@ -1,10 +1,13 @@
 package com.example.gametime;
 
 import android.app.Application;
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Build;
+
+import androidx.core.content.ContextCompat;
 
 public class App extends Application {
     public static final String GAMESCORES_CHANNEL_ID = "gameScoresChannel";
@@ -15,7 +18,7 @@ public class App extends Application {
         super.onCreate();
 
         createNotificationChannels();
-        startService(new Intent(this, BackgroundService.class));
+        startForegroundService(new Intent(this, BackgroundService.class));
     }
 
     private void createNotificationChannels(){
