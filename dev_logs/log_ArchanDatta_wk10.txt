@@ -1,0 +1,2 @@
+This week I finished building the simulator for the live demo. We also refactored the UI to look more
+professional and finished to get it ready to submit to the app store. ~10 hours
