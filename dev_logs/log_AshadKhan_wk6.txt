@@ -1,0 +1,4 @@
+I researched ways on how to have seperate activities for the splash screen and game cards in the app. The reason
+for this was that we were facing an issue of the app going back to the splash screen when you pressed the back
+button on your phone. We also wanted to look into how we can have the app load in the background while the
+splash screen is displaying so there is no delay when the game cards show up. ~4 hours

@@ -1,0 +1,2 @@
+I started working on D3 with the rest of my group. More specifically, I focused on the architectural style used in
+our app and demonstrated through a diagram how our app displays the Publisher-subscriber style. ~ 5 hours

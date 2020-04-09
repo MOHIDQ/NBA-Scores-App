@@ -1,0 +1,4 @@
+This week I did user testing of the application to ensure that the functionality that we wanted prepared for D2 was
+working correctly, some of which are the app updating live scores, running in the background, and giving notifications.
+I also helped my team prepare for D2 as we prepared a presentation, and discussed our our plan for the
+month. ~5 hours
